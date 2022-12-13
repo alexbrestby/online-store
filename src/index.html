@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online-Store</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <header class="header">
+      <div class="header-logo">
+        <div class="header-logo__img"><img src="<%= require('./assets/images/logo.png') %>" /></div>
+      </div>
+      <div class="header-search">
+        <div class="header-search__input">
+          <input type="text" name="search" id="search" placeholder="Search Product">
+        </div>
+      </div>
+      <div class="header-cart">
+        <div class="header-cart__total">
+          &euro; <span class="total-sum">0.00</span>
+        </div>
+        <div class="header-cart__img">
+          <img src="<%= require('./assets/images/cart.png') %>" alt="header-cart" class="header-cart__img" />
+        </div>
+      </div>
+    </header>
+    <div class="main">
+      <div class="filters-area">
+        <div class="global-filters">
+          <div class="reset">Reset Filters</div>
+          <div class="copy-link">Copy Link</div>
+        </div>
+        <div class="category-filter">
+          <h3>Category</h3>
+          <div class="category-filter__list">
+          </div>
+        </div>
+        <div class="brand-filter">
+          <h3>Brand</h3>
+          <div class="brand-filter__list">
+          </div>
+        </div>
+        <div class="price-filter">
+          <h3>Price</h3>
+        </div>
+        <div class="stock-filter">
+          <h3>Stock</h3>
+        </div>
+      </div>
+      <div class="render-area">Render Area</div>
+    </div>
+    <div class="footer">
+    </div>
+  </div>
+</body>
+
+</html>

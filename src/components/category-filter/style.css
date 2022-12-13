@@ -1,0 +1,13 @@
+.category-filter__list {
+  height: 200px;
+  overflow: auto;
+  margin-bottom: 10px;
+}
+
+.checkbox-item {
+  margin: 5px 0;
+}
+
+.checkbox {
+  margin: 0 5px;
+}
