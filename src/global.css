@@ -94,6 +94,11 @@ body {
   border-right: 3px solid #B88572;
 }
 
+.filters-area h3 {
+  color: #2F4858;
+  margin-bottom: 5px;
+}
+
 .render-area {
   border-right: 3px solid #B88572;
   background-color: #FFF4EB;
@@ -115,6 +120,25 @@ body {
   margin: 5px;
   padding: 10px;
   border-radius: 3px;
+}
+
+.reset,
+.copy-link {
+  color: #BA3B0A;
+  background-color: #B88572;
+  width: 40%;
+  padding: 5px 10px;
+  text-align: center;
+  border-radius: 3px;
+  font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}
+
+.reset:hover,
+.copy-link:hover {
+  color: #FFF4EB;
+  background-color: #2F4858;
+  cursor: pointer;
 }
 
 .footer {

@@ -28,10 +28,15 @@ const categoryFilter = () => {
   for (let i = 0; i < categoriesArray.length; i++) {
     const categoryItem = document.createElement('div');
     categoryItem.classList.add('category-filter__item', 'checkbox-item');
-    categoryItem.innerHTML = categoriesArray[i];
+
+    const categoryItemLabel = document.createElement('label');
+    categoryItemLabel.innerHTML = categoriesArray[i];
+    categoryItemLabel.setAttribute('for', categoriesArray[i]);
+    categoryItem.appendChild(categoryItemLabel);
 
     const categoryCheckBox = document.createElement('input');
     categoryCheckBox.type = 'checkbox';
+    categoryCheckBox.id = categoriesArray[i];
     categoryCheckBox.classList.add('checkbox');
     categoryCheckBox.value = categoriesArray[i];
     categoryItem.prepend(categoryCheckBox);

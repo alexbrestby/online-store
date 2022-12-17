@@ -87,10 +87,15 @@ const brandFilter = () => {
   for (let i = 0; i < brandArray.length; i++) {
     const brandItem = document.createElement('div');
     brandItem.classList.add('brand-filter__item', 'checkbox-item');
-    brandItem.innerHTML = brandArray[i];
+
+    const brandCheckBoxLabel = document.createElement('label');
+    brandCheckBoxLabel.innerHTML = brandArray[i];
+    brandCheckBoxLabel.setAttribute('for', brandArray[i]);
+    brandItem.appendChild(brandCheckBoxLabel);
 
     const brandCheckBox = document.createElement('input');
     brandCheckBox.type = 'checkbox';
+    brandCheckBox.id = brandArray[i];
     brandCheckBox.classList.add('checkbox');
     brandCheckBox.value = brandArray[i];
     brandItem.prepend(brandCheckBox);
