@@ -1,5 +1,10 @@
 .brand-filter__list {
-  height: 200px;
+  height: 135px;
   overflow: auto;
   margin-bottom: 10px;
+}
+
+.brand-filter__item {
+  color: #BA3B0A;
+  font-weight: bold;
 }

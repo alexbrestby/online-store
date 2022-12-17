@@ -47,9 +47,41 @@
         </div>
         <div class="price-filter">
           <h3>Price</h3>
+          <div class="price-filter__slider">
+            <div class="values">€
+              <span id="range1">
+                0
+              </span>
+              <span> &dash; </span>
+              <span id="range2">
+                100
+              </span>
+            </div>
+            <div class="container">
+              <div class="slider-track"></div>
+              <input type="range" min="10" max="1749" value="100" id="slider-1">
+              <input type="range" min="10" max="1749" value="800" id="slider-2">
+            </div>
+          </div>
         </div>
         <div class="stock-filter">
           <h3>Stock</h3>
+          <div class="stock-filter__slider">
+            <div class="values">
+              <span id="range3">
+                0
+              </span>
+              <span> &dash; </span>
+              <span id="range4">
+                100
+              </span>
+            </div>
+            <div class="container">
+              <div class="slider-track-2"></div>
+              <input type="range" min="2" max="150" value="2" id="slider-3">
+              <input type="range" min="2" max="150" value="150" id="slider-4">
+            </div>
+          </div>
         </div>
       </div>
       <div class="render-area">Render Area</div>

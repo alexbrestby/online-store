@@ -1,11 +1,21 @@
 .category-filter__list {
-  height: 200px;
+  height: 135px;
   overflow: auto;
   margin-bottom: 10px;
 }
 
+.category-filter__item label {
+  font-weight: bold;
+  text-transform: capitalize;
+  color: #BA3B0A;
+}
+
 .checkbox-item {
   margin: 5px 0;
+}
+
+label:hover {
+  cursor: pointer;
 }
 
 .checkbox {
