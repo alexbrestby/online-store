@@ -97,6 +97,12 @@ input[type="range"]:active::-webkit-slider-thumb {
   color: #ffffff;
 }
 
+@media (max-width: 768px) {
+  .values {
+    font-size: 1em;
+  }
+}
+
 .values:before {
   content: "";
   position: absolute;
