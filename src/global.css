@@ -100,10 +100,29 @@ body {
 }
 
 .render-area {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   border-right: 3px solid #B88572;
-  background-color: #FFF4EB;
+  background-color: #EDE9D0;
   width: 70%;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
+
+@media (max-height: 800px) {
+  .render-area {
+    max-height: 100vh;
+    overflow: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .render-area {
+    justify-content: center;
+  }
+}
+
 
 .global-filters {
   display: flex;
