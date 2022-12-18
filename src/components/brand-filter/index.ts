@@ -92,6 +92,7 @@ const brandFilter = () => {
     const brandCheckBox = document.createElement('input');
     brandCheckBox.type = 'checkbox';
     brandCheckBox.classList.add('checkbox');
+    brandCheckBox.name = 'brand';
     brandCheckBox.value = brandArray[i];
     brandItem.prepend(brandCheckBox);
 

@@ -33,7 +33,9 @@ const categoryFilter = () => {
     const categoryCheckBox = document.createElement('input');
     categoryCheckBox.type = 'checkbox';
     categoryCheckBox.classList.add('checkbox');
+    categoryCheckBox.name = 'type';
     categoryCheckBox.value = categoriesArray[i];
+
     categoryItem.prepend(categoryCheckBox);
 
     filterList?.appendChild(categoryItem);
