@@ -29,6 +29,8 @@ const productsRender = () => {
         const item = document.createElement('div');
         item.classList.add('product-item');
 
+        item.dataset.id = product.id;
+
         const itemWrapper = document.createElement('div');
         itemWrapper.classList.add('item-wrapper');
         itemWrapper.style.background = `url(${product.thumbnail}) 0% 0% / cover`;
