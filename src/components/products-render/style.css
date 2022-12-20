@@ -1,4 +1,5 @@
 .product-item {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -46,4 +47,14 @@
   height: 150px;
   background-size: contain;
   background-position: 0 0;
+}
+
+.item-buttons-wrapper {
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  bottom: 5px;
+  left:0;
 }
