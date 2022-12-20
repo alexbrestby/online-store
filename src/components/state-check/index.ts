@@ -57,12 +57,12 @@ const stateCheck = () => {
     };
     if ((e.target as HTMLInputElement).id === 'slider-1'
       || (e.target as HTMLInputElement).id === 'slider-2') {
-      globalState.minPrice = minPrice?.innerHTML;
-      globalState.maxPrice = maxPrice?.innerHTML;
+      globalState.min_price = minPrice?.innerHTML;
+      globalState.max_price = maxPrice?.innerHTML;
     }
     if ((e.target as HTMLInputElement).id === 'slider-3' || (e.target as HTMLInputElement).id === 'slider-4') {
-      globalState.minStock = minStock?.innerHTML;
-      globalState.maxStock = maxStock?.innerHTML;
+      globalState.min_stock = minStock?.innerHTML;
+      globalState.max_stock = maxStock?.innerHTML;
     }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
     console.log('текущее состояние (state):', history.state);

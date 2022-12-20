@@ -35,7 +35,7 @@ const productsRender = () => {
         itemWrapper.classList.add('item-wrapper');
         itemWrapper.style.background = `url(${product.thumbnail}) 0% 0% / cover`;
 
-        const title = document.createElement('h2');
+        const title = document.createElement('h3');
         title.innerHTML = `${product.title}`;
 
         item.append(title);
