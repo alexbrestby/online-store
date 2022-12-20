@@ -95,8 +95,14 @@ body {
 }
 
 .filters-area h3 {
+  display: flex;
+  align-items: center;
   color: #2F4858;
   margin-bottom: 5px;
+}
+
+.filters-area h3 i {
+  margin-right: 5px;
 }
 
 .render-area {
