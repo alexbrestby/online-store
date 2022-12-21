@@ -119,10 +119,9 @@ body {
   overflow-y: auto;
 }
 
-@media (max-height: 800px) {
+@media (max-height: 850px) {
   .render-area {
-    max-height: 100vh;
-    overflow: auto;
+    max-height: calc(100vh - 60px);
   }
 }
 

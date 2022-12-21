@@ -1,4 +1,4 @@
-import { stateCheck } from "../state-check/index";
+import { stateCheck } from '../state-check/index';
 
 const globalSearch = () => {
   const searchInput = <HTMLInputElement>document.getElementById('search');
@@ -20,6 +20,6 @@ const globalSearch = () => {
   //   })
 
   stateCheck();
-}
+};
 
 export { globalSearch };
