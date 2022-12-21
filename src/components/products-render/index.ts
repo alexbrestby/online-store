@@ -1,9 +1,10 @@
 import './style.css';
+import { mainRender } from "./main-render/main-render";
 
 const productsRender = () => {
-  const render = document.querySelector('.render-area');
 
   // подтягиваем список товаров
+  
   const base: {
     id: number;
     title: string;
@@ -23,22 +24,8 @@ const productsRender = () => {
     .then((data) => {
       for (const product of data.products) {
         base.push(product);
-
-        const item = document.createElement('div');
-        item.classList.add('product-item');
-
-        item.dataset.id = product.id;
-
-        const itemWrapper = document.createElement('div');
-        itemWrapper.classList.add('item-wrapper');
-        itemWrapper.style.background = `url(${product.thumbnail}) 0% 0% / cover`;
-
-        const title = document.createElement('h3');
-        title.innerHTML = `${product.title}`;
-
-        item.append(title);
-        item.append(itemWrapper);
-        render?.append(item);
+        mainRender(product);
+        
       }
     })
     .catch((e) => console.log(e));

@@ -44,10 +44,21 @@ body {
 }
 
 .header-cart__img {
+  position: relative;
   width: 120px;
   height: 50px;
 }
 
+.total-item {
+  font-size: 30px;
+  color: #EDE9D0;
+  z-index: 2;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -14px;
+  margin-top: -20px;
+}
 .header-logo__img img,
 .header-cart__img img {
   max-width: 100%;
