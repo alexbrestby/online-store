@@ -20,6 +20,7 @@ const stateCheck = () => {
     const checkedBoxes = document.querySelectorAll('.checkbox:checked');
 
     Array.from(checkedBoxes).forEach((elem) => {
+
       filterFlag = elem.parentElement?.classList.value.split('-')[0];
       filterFlag === 'brand'
         ? brandsArray.push((elem as HTMLInputElement).value)
@@ -36,6 +37,7 @@ const stateCheck = () => {
     function formQueryString(currentState: any): string {
       let queryString = '';
       Object.keys(currentState).forEach((elem) => (queryString += `${elem}=${currentState[elem]}*`));
+
       queryString = queryString.replace(/\*/gi, '&').slice(0, -1);
       return queryString;
     }
@@ -64,11 +66,13 @@ const stateCheck = () => {
     console.log('текущее состояние (state):', history.state);
   });
 
+
   // сброс state к значению null
   if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
     history.pushState(null, '', '');
     console.log('страница перезагружена');
   }
+
   console.log(
     'параметры из URL для фильтрации элементов после обновления страницы:',
     location.search.slice(1).split('&')
@@ -79,3 +83,4 @@ const stateCheck = () => {
 };
 
 export { stateCheck };
+

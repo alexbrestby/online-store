@@ -1,5 +1,6 @@
 import { stateCheck } from '../state-check/index';
 
+
 const globalSearch = () => {
   const searchInput = <HTMLInputElement>document.getElementById('search');
   const renderArea = <HTMLElement>document.querySelector('.render-area');
