@@ -1,23 +1,18 @@
 const stateCheck = () => {
   const filters = <HTMLElement>document.querySelector('.filters-area');
+  const searchInput = <HTMLInputElement>document.getElementById('search');
 
-  // функция для поиска родителей она тут не используется, но пусть полежит...
-  // const getParents = function (elem: any) {
-  //   const parents = [];
-  //   for (; elem && elem !== document; elem = elem.parentNode) {
-  //     parents.push(elem);
-  //   }
-  //   return parents;
-  // };
-
-  filters.addEventListener('input', function (e) {
+  [filters, searchInput].forEach(elem => elem.addEventListener('input', function (e) {
     console.clear();
 
     // получаем значения из отмеченных чекбосов
+    const searchString = searchInput.value || '';
+    console.log('searchString', searchString);
+    // console.log(searchString);
     const brandsArray: string[] = [];
     const categoriesArray: string[] = [];
-    let filterFlag: string | undefined = '';
     const checkedBoxes = document.querySelectorAll('.checkbox:checked');
+    let filterFlag: string | undefined = '';
 
     Array.from(checkedBoxes).forEach((elem) => {
       filterFlag = elem.parentElement?.classList.value.split('-')[0];
@@ -40,12 +35,21 @@ const stateCheck = () => {
       return queryString;
     }
 
-    // формируем объект history.state
-    let globalState = history.state;
-    if (!globalState) {
-      globalState = {};
-    }
+
+    // флаг для определения фильтра (brand or category)
     const flag = (e.target as HTMLElement).parentElement?.classList.value.split('-')[0];
+
+    let globalState = history.state;
+    // формируем объект history.state
+    if (!globalState) {
+      globalState = globalState = {};
+    }
+    // console.log('e.target', e.target);
+    if (searchString) {
+      globalState.search = searchString;
+    } else {
+      delete globalState.search;
+    }
     if (globalState.category !== categoriesArray && flag === 'category') {
       !categoriesArray.length ? delete globalState.category : (globalState.category = categoriesArray);
     }
@@ -61,8 +65,8 @@ const stateCheck = () => {
       globalState.max_stock = maxStock?.innerHTML;
     }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
-    console.log('текущее состояние (state):', history.state);
-  });
+    console.log('текущее состояние (state):', globalState);
+  }));
 
   // сброс state к значению null
   if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
