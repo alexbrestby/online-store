@@ -4,16 +4,18 @@ import { brandFilter } from './components/brand-filter/index';
 import { priceSlider } from './components/price-slider/index';
 import { stockSlider } from './components/stock-slider/index';
 import productsRender from './components/products-render/index';
-import { globalSearch } from './components/global-search/index';
+import { stateCheck } from './components/state-check/index';
+import { selectFilter } from './components/select-filter/index';
 
 const init = (): void => {
   {
+    selectFilter();
     categoryFilter();
     brandFilter();
     priceSlider();
     stockSlider();
     productsRender();
-    globalSearch();
+    stateCheck();
   }
 };
 

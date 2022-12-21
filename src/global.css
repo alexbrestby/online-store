@@ -139,6 +139,7 @@ body {
 }
 
 .global-filters,
+.sort-filters,
 .category-filter,
 .brand-filter,
 .price-filter,
@@ -165,6 +166,12 @@ body {
   color: #FFF4EB;
   background-color: #2F4858;
   cursor: pointer;
+}
+
+.sort-filters {
+  display: flex;
+  justify-content: center;
+  height: 50px;
 }
 
 .footer {
