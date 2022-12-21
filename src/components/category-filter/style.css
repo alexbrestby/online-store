@@ -2,7 +2,7 @@
 @import url('https://css.gg/format-line-height.css');
 
 .category-filter__list {
-  height: 135px;
+  height: 120px;
   overflow: auto;
   margin-bottom: 10px;
 }
