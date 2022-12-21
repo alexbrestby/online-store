@@ -6,19 +6,15 @@ import { stockSlider } from './components/stock-slider/index';
 import productsRender from './components/products-render/index';
 import { globalSearch } from './components/global-search/index';
 
-
-const APP = {
-  init() {
+const init = (): void => {
+  {
     categoryFilter();
     brandFilter();
     priceSlider();
     stockSlider();
     productsRender();
     globalSearch();
-  },
+  }
 };
 
-document.addEventListener('DOMContentLoaded', APP.init);
-
-
-
+document.addEventListener('DOMContentLoaded', init);

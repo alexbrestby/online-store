@@ -1,6 +1,3 @@
-import { debounce } from "../../../node_modules/ts-debounce/dist/src/index";
-import { categoryFilter } from "../category-filter/index";
-
 const stateCheck = () => {
   const filters = <HTMLElement>document.querySelector('.filters-area');
 
@@ -22,7 +19,7 @@ const stateCheck = () => {
     let filterFlag: string | undefined = '';
     const checkedBoxes = document.querySelectorAll('.checkbox:checked');
 
-    Array.from(checkedBoxes).forEach(elem => {
+    Array.from(checkedBoxes).forEach((elem) => {
       filterFlag = elem.parentElement?.classList.value.split('-')[0];
       filterFlag === 'brand'
         ? brandsArray.push((elem as HTMLInputElement).value)
@@ -38,7 +35,7 @@ const stateCheck = () => {
     // фомируем query string
     function formQueryString(currentState: any): string {
       let queryString = '';
-      Object.keys(currentState).forEach(elem => queryString += `${elem}=${currentState[elem]}*`);
+      Object.keys(currentState).forEach((elem) => (queryString += `${elem}=${currentState[elem]}*`));
       queryString = queryString.replace(/\*/gi, '&').slice(0, -1);
       return queryString;
     }
@@ -50,33 +47,35 @@ const stateCheck = () => {
     }
     const flag = (e.target as HTMLElement).parentElement?.classList.value.split('-')[0];
     if (globalState.category !== categoriesArray && flag === 'category') {
-      !categoriesArray.length ? delete globalState.category : globalState.category = categoriesArray;
+      !categoriesArray.length ? delete globalState.category : (globalState.category = categoriesArray);
     }
     if (globalState.brand !== brandsArray && flag === 'brand') {
-      !brandsArray.length ? delete globalState.brand : globalState.brand = brandsArray;
-    };
-    if ((e.target as HTMLInputElement).id === 'slider-1'
-      || (e.target as HTMLInputElement).id === 'slider-2') {
-      globalState.minPrice = minPrice?.innerHTML;
-      globalState.maxPrice = maxPrice?.innerHTML;
+      !brandsArray.length ? delete globalState.brand : (globalState.brand = brandsArray);
+    }
+    if ((e.target as HTMLInputElement).id === 'slider-1' || (e.target as HTMLInputElement).id === 'slider-2') {
+      globalState.min_price = minPrice?.innerHTML;
+      globalState.max_price = maxPrice?.innerHTML;
     }
     if ((e.target as HTMLInputElement).id === 'slider-3' || (e.target as HTMLInputElement).id === 'slider-4') {
-      globalState.minStock = minStock?.innerHTML;
-      globalState.maxStock = maxStock?.innerHTML;
+      globalState.min_stock = minStock?.innerHTML;
+      globalState.max_stock = maxStock?.innerHTML;
     }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
     console.log('текущее состояние (state):', history.state);
-  })
+  });
 
   // сброс state к значению null
   if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
     history.pushState(null, '', '');
     console.log('страница перезагружена');
   }
-  console.log('параметры из URL для фильтрации элементов после обновления страницы:', location.search.slice(1,).split('&'));
+  console.log(
+    'параметры из URL для фильтрации элементов после обновления страницы:',
+    location.search.slice(1).split('&')
+  );
 
   // TODO: debouncer для регуляторов диапазонов
   // TODO: npm run lint
-}
+};
 
 export { stateCheck };

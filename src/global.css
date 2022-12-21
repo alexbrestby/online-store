@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +8,7 @@
 
 body {
   background-color: #FFF5EE;
+  font-family: 'Roboto', sans-serif;
 }
 
 .wrapper {
@@ -95,8 +98,14 @@ body {
 }
 
 .filters-area h3 {
+  display: flex;
+  align-items: center;
   color: #2F4858;
   margin-bottom: 5px;
+}
+
+.filters-area h3 i {
+  margin-right: 5px;
 }
 
 .render-area {
@@ -110,10 +119,9 @@ body {
   overflow-y: auto;
 }
 
-@media (max-height: 800px) {
+@media (max-height: 850px) {
   .render-area {
-    max-height: 100vh;
-    overflow: auto;
+    max-height: calc(100vh - 60px);
   }
 }
 
@@ -149,7 +157,6 @@ body {
   padding: 5px 10px;
   text-align: center;
   border-radius: 3px;
-  font-weight: bold;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
 }
 
@@ -162,7 +169,6 @@ body {
 
 .footer {
   display: flex;
-  font-weight: bold;
   font-size: 1.2em;
   justify-content: space-evenly;
   align-items: center;

@@ -1,3 +1,6 @@
+@import url('https://css.gg/list.css');
+@import url('https://css.gg/format-line-height.css');
+
 .category-filter__list {
   height: 135px;
   overflow: auto;
@@ -5,7 +8,6 @@
 }
 
 .category-filter__item label {
-  font-weight: bold;
   text-transform: capitalize;
   color: #BA3B0A;
 }
