@@ -6,6 +6,7 @@ import { stockSlider } from './components/stock-slider/index';
 import productsRender from './components/products-render/index';
 import { stateCheck } from './components/state-check/index';
 import { selectFilter } from './components/select-filter/index';
+import { refreshBasketRender } from "./components/products-render/main-render/main-render";
 
 const init = (): void => {
   {
@@ -14,6 +15,7 @@ const init = (): void => {
     brandFilter();
     priceSlider();
     stockSlider();
+    refreshBasketRender();
     productsRender();
     stateCheck();
   }

@@ -30,11 +30,13 @@ interface Iproduct {
 }
 
 const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + getNonNullKeys(basketRender));
+export const refreshBasketRender = () => 
+{basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
+console.log('basketRender--', basketRender)
+}
 
 export const mainRender = (product: Iproduct) => {
-  basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
-  console.log('basketRender--', basketRender);
-
+  
   refreshTotalItemInBasket();
 
   const render = document.querySelector('.render-area');
