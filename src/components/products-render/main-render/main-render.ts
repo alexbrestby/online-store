@@ -1,4 +1,5 @@
 import './main-render.css'
+
 interface IbasketRender {
   [ind: string]: number;
 }

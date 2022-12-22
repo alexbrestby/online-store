@@ -1,10 +1,9 @@
 import './style.css';
 import { mainRender } from "./main-render/main-render";
 
-const productsRender = () => {
 
+const productsRender = () => {
   // подтягиваем список товаров
-  
   const base: {
     id: number;
     title: string;
@@ -23,14 +22,10 @@ const productsRender = () => {
     .then((res) => res.json())
     .then((data) => {
       for (const product of data.products) {
-        base.push(product);
         mainRender(product);
-        
       }
     })
     .catch((e) => console.log(e));
-
-  return base;
 };
 
 export default productsRender;
