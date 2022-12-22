@@ -30,13 +30,13 @@ interface Iproduct {
 }
 
 const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + getNonNullKeys(basketRender));
-export const refreshBasketRender = () => 
-{basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
-console.log('basketRender--', basketRender)
-}
+
+export const refreshBasketRender = () => {
+  basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
+  console.log('refreshBasketRender()=>basketRender', basketRender);
+};
 
 export const mainRender = (product: Iproduct) => {
-  
   refreshTotalItemInBasket();
 
   const render = document.querySelector('.render-area');
@@ -83,8 +83,26 @@ export const mainRender = (product: Iproduct) => {
   const title = document.createElement('h3');
   title.innerHTML = `${product.title}`;
 
+  const itemInfoBlock = document.createElement('div');
+  itemInfoBlock.classList.add('item-info-block');
+  getItemInfoBlock(product, itemInfoBlock);
+
   itemWrapper.append(itemButtonsWrapper);
+  itemWrapper.append(itemInfoBlock);
   item.append(title);
   item.append(itemWrapper);
   render?.append(item);
+};
+
+const getItemInfoBlock = (product: Iproduct, div: HTMLDivElement) => {
+  [['category', 'Category'], ['brand', 'Brand'], ['price','price'], ['discountPercentage','Discount'], ['rating', 'Rating'], ['stock', 'Stock']].forEach((elem) => {
+    const pItemInfo = document.createElement('p');
+    pItemInfo.classList.add('p-item-info');
+    pItemInfo.textContent = ''+product[elem[0] as keyof Iproduct]
+    const spanItemInfo = document.createElement('span');
+    spanItemInfo.classList.add('span-item-info');
+    spanItemInfo.textContent = elem[1]+': ';
+    pItemInfo.prepend(spanItemInfo);
+    div.append(pItemInfo);
+  });
 };
