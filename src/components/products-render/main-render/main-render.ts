@@ -1,9 +1,19 @@
-import './main-render.css'
+import './main-render.css';
+
+function getNonNullKeys(obj: IbasketRender) {
+  let quantity = 0;
+  for (let item of Object.values(obj)) {
+    if (item > 0) {
+      quantity++;
+    }
+  }
+  return quantity;
+}
 interface IbasketRender {
   [ind: string]: number;
 }
 
-const basketRender: IbasketRender = {};
+let basketRender: IbasketRender;
 const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
 interface Iproduct {
   id: number;
@@ -19,7 +29,14 @@ interface Iproduct {
   images: string[];
 }
 
+const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + getNonNullKeys(basketRender));
+
 export const mainRender = (product: Iproduct) => {
+  basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
+  console.log('basketRender--', basketRender);
+
+  refreshTotalItemInBasket();
+
   const render = document.querySelector('.render-area');
 
   const item = document.createElement('div');
@@ -33,18 +50,19 @@ export const mainRender = (product: Iproduct) => {
   itemWrapperButtonBuy.classList.add('item-wrapper-button-buy');
   itemWrapperButtonBuy.classList.add('button');
   itemWrapperButtonBuy.dataset.buy = '' + product.id;
-  itemWrapperButtonBuy.textContent = 'add to cart';
+  itemWrapperButtonBuy.textContent = basketRender['' + product.id] ? 'remove' : 'add to cart';
 
   itemWrapperButtonBuy.addEventListener('click', () => {
     let idIndex = itemWrapperButtonBuy.dataset.buy;
-    if (basketRender[idIndex!] !== 1) {
+
+    if (basketRender[idIndex!] < 1 || basketRender[idIndex!] === undefined) {
       basketRender[idIndex!] = 1;
       itemWrapperButtonBuy.textContent = 'remove';
     } else {
-      basketRender[idIndex!]--;
+      basketRender[idIndex!] = 0;
       itemWrapperButtonBuy.textContent = 'add to cart';
     }
-    totalItemInBasket.textContent = '' + getNonNullKeys(basketRender);
+    refreshTotalItemInBasket();
     localStorage.setItem('basket', JSON.stringify(basketRender));
   });
 
@@ -68,13 +86,3 @@ export const mainRender = (product: Iproduct) => {
   item.append(itemWrapper);
   render?.append(item);
 };
-
-function getNonNullKeys(obj: IbasketRender) {
-  let quantity = 0;
-  for (let item of Object.values(obj)) {
-    if (item > 0) {
-      quantity++;
-    }
-  }
-  return quantity;
-}
