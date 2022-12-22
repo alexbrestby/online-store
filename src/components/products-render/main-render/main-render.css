@@ -1,6 +1,6 @@
 .button {
   color: #ba3b0a;
-  background-color: #b88572;
+  background-color: #b88572c7;
   padding: 3px 10px;
   text-align: center;
   border: 0;
@@ -25,4 +25,18 @@
   width: 100%;
   bottom: 5px;
   left: 0;
+}
+
+.item-info-block {
+  width: 65%;
+  background-color: #4d2f1490;
+  border-radius: 0 0 30px;
+  padding: 1%;
+  font-size: 11px;
+  color: white;
+}
+
+.span-item-info {
+  font-weight: bold;
+  font-style: italic;
 }
