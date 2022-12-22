@@ -1,8 +1,10 @@
 .product-item {
   display: flex;
+  align-self: flex-start;
   flex-direction: column;
   justify-content: center;
   width: 30%;
+  height: 200px;
   margin: 10px;
   border: 3px solid #B88572;
   border-radius: 5px;
@@ -25,8 +27,6 @@
     width: 85%;
   }
 }
-
-
 
 .product-item h3 {
   display: flex;

@@ -1,14 +1,17 @@
+import { globalFilter } from "../global-filter/index";
+
 const stateCheck = () => {
-  const filters = <HTMLElement>document.querySelector('.filters-area');
+  const categoryFilters = <HTMLElement>document.querySelector('.category-filter');
+  const brandFilters = <HTMLElement>document.querySelector('.brand-filter');
+  const priceFilters = <HTMLElement>document.querySelector('.price-filter');
+  const stockFilters = <HTMLElement>document.querySelector('.stock-filter');
   const searchInput = <HTMLInputElement>document.getElementById('search');
 
-  [filters, searchInput].forEach(elem => elem.addEventListener('input', function (e) {
+  //handle listener function
+  const handleListener = (e: Event) => {
     console.clear();
-
     // получаем значения из отмеченных чекбосов
     const searchString = searchInput.value || '';
-    console.log('searchString', searchString);
-    // console.log(searchString);
     const brandsArray: string[] = [];
     const categoriesArray: string[] = [];
     const checkedBoxes = document.querySelectorAll('.checkbox:checked');
@@ -35,7 +38,6 @@ const stateCheck = () => {
       return queryString;
     }
 
-
     // флаг для определения фильтра (brand or category)
     const flag = (e.target as HTMLElement).parentElement?.classList.value.split('-')[0];
 
@@ -44,7 +46,6 @@ const stateCheck = () => {
     if (!globalState) {
       globalState = globalState = {};
     }
-    // console.log('e.target', e.target);
     if (searchString) {
       globalState.search = searchString;
     } else {
@@ -57,16 +58,17 @@ const stateCheck = () => {
       !brandsArray.length ? delete globalState.brand : (globalState.brand = brandsArray);
     }
     if ((e.target as HTMLInputElement).id === 'slider-1' || (e.target as HTMLInputElement).id === 'slider-2') {
-      globalState.min_price = minPrice?.innerHTML;
-      globalState.max_price = maxPrice?.innerHTML;
+      globalState.price = [minPrice?.innerHTML, maxPrice?.innerHTML];
     }
     if ((e.target as HTMLInputElement).id === 'slider-3' || (e.target as HTMLInputElement).id === 'slider-4') {
-      globalState.min_stock = minStock?.innerHTML;
-      globalState.max_stock = maxStock?.innerHTML;
+      globalState.stock = [minStock?.innerHTML, maxStock?.innerHTML];
     }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
-    console.log('текущее состояние (state):', globalState);
-  }));
+    globalFilter();
+  }
+
+  [categoryFilters, brandFilters, searchInput].forEach(elem => elem.addEventListener('input', handleListener));
+  [priceFilters, stockFilters].forEach(elem => elem.addEventListener('change', handleListener));
 
   // сброс state к значению null
   if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
@@ -78,7 +80,6 @@ const stateCheck = () => {
     location.search.slice(1).split('&')
   );
 
-  // TODO: debouncer для регуляторов диапазонов
   // TODO: npm run lint
 };
 
