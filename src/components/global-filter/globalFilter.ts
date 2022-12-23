@@ -1,25 +1,9 @@
-import { mainRender } from '../products-render/main-render/main-render';
+import { mainRender } from '../products-render/main-render/mainRender';
 
 const globalFilter = (): void => {
   const renderArea = <HTMLElement>document.querySelector('.render-area');
   const filterParams = { ...history.state };
   console.log(filterParams);
-
-  // подтягиваем список товаров
-
-  const base: {
-    id: number;
-    title: string;
-    description: string;
-    price: number;
-    discountPercentage: number;
-    rating: number;
-    stock: null;
-    brand: string;
-    category: string;
-    thumbnail: string;
-    images: string[];
-  }[] = [];
 
   function checkboxHandler(arr: [], filterName: string) {
     let params: [] = [];
@@ -53,12 +37,42 @@ const globalFilter = (): void => {
     return result;
   }
 
-  fetch('https://dummyjson.com/products?limit=48')
+  function searchHandler(arr: any[]) {
+    let params = '';
+    filterParams.search.length >= 3 ? params = filterParams.search : params = '';
+    const result = [];
+    if (params) {
+      for (let i = 0; i < arr.length; i++) {
+        for (let elem in arr[i]) {
+          if (typeof arr[i][elem] === 'string' && elem !== 'thumbnail') {
+            // if (arr[i][elem].toLowerCase().startsWith(params)) {               //для поиска по началу вхождения
+            if (arr[i][elem].toLowerCase().includes(params.toLowerCase())) {      //для поиска по всему выражению
+              result.push(arr[i]);
+            }
+          }
+        }
+      }
+    }
+    return [...new Set(result)];
+  }
+
+  fetch('https://dummyjson.com/products?limit=99')
     .then((res) => res.json())
     .then((data) => {
-      renderArea.innerHTML = ``;
+      if (Object.keys(filterParams).includes('brand')
+        || Object.keys(filterParams).includes('category')
+        || Object.keys(filterParams).includes('price')
+        || Object.keys(filterParams).includes('stock')) {
+        renderArea.innerHTML = ``;
+      }
       let resultArray = data.products;
 
+      if (Object.keys(filterParams).includes('search')) {
+        resultArray = searchHandler(resultArray);
+        if (resultArray.length > 0) {
+          renderArea.innerHTML = ``;
+        }
+      }
       if (Object.keys(filterParams).includes('brand')) {
         resultArray = checkboxHandler(resultArray, 'brand');
       }
@@ -71,13 +85,14 @@ const globalFilter = (): void => {
       if (Object.keys(filterParams).includes('stock')) {
         resultArray = rangeHandler(resultArray, 'stock');
       }
-      for (let i = 0; i < resultArray.length; i++) {
-        mainRender(resultArray[i]);
+      if (typeof resultArray !== 'undefined' && resultArray.length > 0) {
+        for (let i = 0; i < resultArray.length; i++) {
+          mainRender(resultArray[i]);
+        }
       }
       console.log(resultArray);
     })
     .catch((e) => console.log(e));
-
 };
 
 export { globalFilter };

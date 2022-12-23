@@ -1,5 +1,5 @@
 import './style.css';
-import { mainRender } from "./main-render/main-render";
+import { mainRender } from "./main-render/mainRender";
 
 
 const productsRender = () => {
@@ -18,7 +18,7 @@ const productsRender = () => {
     images: string[];
   }[] = [];
 
-  fetch('https://dummyjson.com/products?limit=48')
+  fetch('https://dummyjson.com/products?limit=99')
     .then((res) => res.json())
     .then((data) => {
       for (const product of data.products) {

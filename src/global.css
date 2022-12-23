@@ -50,14 +50,15 @@ body {
 }
 
 .total-item {
-  font-size: 30px;
+  font-size: 20px;
+  font-style: italic;
   color: #EDE9D0;
   z-index: 2;
   position: absolute;
   left: 50%;
   top: 50%;
   margin-left: -14px;
-  margin-top: -20px;
+  margin-top: -16px;
 }
 
 .header-logo__img img,

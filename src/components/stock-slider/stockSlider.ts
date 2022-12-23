@@ -1,5 +1,5 @@
 import './style.css';
-import { sliders } from '../sliders/index';
+import { sliders } from '../sliders/sliders';
 
 const stockSlider = () => {
   const sliderOne = <HTMLInputElement>document.getElementById('slider-3');

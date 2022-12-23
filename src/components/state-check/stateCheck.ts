@@ -1,4 +1,4 @@
-import { globalFilter } from "../global-filter/index";
+import { globalFilter } from "../global-filter/globalFilter";
 
 const stateCheck = () => {
   const categoryFilters = <HTMLElement>document.querySelector('.category-filter');
