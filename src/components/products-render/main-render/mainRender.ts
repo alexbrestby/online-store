@@ -33,7 +33,7 @@ const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + get
 
 export const refreshBasketRender = () => {
   basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
-  console.log('refreshBasketRender()=>basketRender', basketRender);
+  // console.log('refreshBasketRender()=>basketRender', basketRender);
 };
 
 export const mainRender = (product: Iproduct) => {
