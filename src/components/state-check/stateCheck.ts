@@ -6,12 +6,18 @@ const stateCheck = () => {
   const priceFilters = <HTMLElement>document.querySelector('.price-filter');
   const stockFilters = <HTMLElement>document.querySelector('.stock-filter');
   const searchInput = <HTMLInputElement>document.getElementById('search');
+  const sortSelector = <HTMLElement>document.querySelector('.sort-selector');
 
   //handle listener function
   const handleListener = (e: Event) => {
     console.clear();
+
     // получаем значения из отмеченных чекбосов
     const searchString = searchInput.value || '';
+    let sortString = '';
+    (sortSelector as HTMLSelectElement).selectedOptions[0].value === 'sort-title'
+      ? sortString = ''
+      : sortString = (sortSelector as HTMLSelectElement).selectedOptions[0].value;
     const brandsArray: string[] = [];
     const categoriesArray: string[] = [];
     const checkedBoxes = document.querySelectorAll('.checkbox:checked');
@@ -63,12 +69,16 @@ const stateCheck = () => {
     if ((e.target as HTMLInputElement).id === 'slider-3' || (e.target as HTMLInputElement).id === 'slider-4') {
       globalState.stock = [minStock?.innerHTML, maxStock?.innerHTML];
     }
+    if (sortString && (e.target as HTMLSelectElement).id === 'sort-selector') {
+      globalState.sort = sortString;
+    }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
     globalFilter();
   }
 
   [categoryFilters, brandFilters, searchInput].forEach(elem => elem.addEventListener('input', handleListener));
   [priceFilters, stockFilters].forEach(elem => elem.addEventListener('change', handleListener));
+  [sortSelector].forEach(elem => elem.addEventListener('change', handleListener));
 
   // сброс state к значению null
   if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {

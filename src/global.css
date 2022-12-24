@@ -205,7 +205,38 @@ body {
 .sort-filters {
   display: flex;
   justify-content: center;
-  height: 50px;
+  height: 52px;
+}
+
+.sort-selector {
+  background-color: #b88572;
+  color: #ede9d0;
+  width: 60%;
+  border: none;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+  outline: none;
+  text-align: center;
+  color: #ba3b0a;
+  font-size: 1.1em;
+  border-radius: 3px;
+}
+
+.sort-selector:hover {
+  color: #FFF4EB;
+  background-color: #2F4858;
+  cursor: pointer;
+}
+
+.sort-selector option {
+  appearance: none;
+  background-color: #ede9d0;
+  color: #2f4858;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+option span::before {
+  content: '<i class="gg-push-up"></i>';
 }
 
 .footer {

@@ -60,12 +60,29 @@ const globalFilter = (): void => {
     return [...new Set(result)];
   }
 
+  function sortingHandler(arr: [], sortDirection: string, sortMode: string) {
+    let result: any[] = [];
+    if (sortDirection === 'asc' && sortMode === 'price') {
+      result = Object.values(arr).sort((a: any, b: any) => a.price - b.price);
+    }
+    if (sortDirection === 'desc' && sortMode === 'price') {
+      result = Object.values(arr).sort((a: any, b: any) => b.price - a.price);
+    }
+    if (sortDirection === 'asc' && sortMode === 'rating') {
+      result = Object.values(arr).sort((a: any, b: any) => a.rating - b.rating);
+    }
+    if (sortDirection === 'desc' && sortMode === 'rating') {
+      result = Object.values(arr).sort((a: any, b: any) => b.rating - a.rating);
+    }
+    return result;
+  }
+
   function addZero(value: number | string): string {
     if (value < 10) value = '0' + value;
     return value.toString();
   }
 
-  fetch('https://dummyjson.com/products?limit=36')
+  fetch('https://dummyjson.com/products?limit=12')
     .then((res) => res.json())
     .then((data) => {
       let resultArray = data.products;
@@ -86,14 +103,18 @@ const globalFilter = (): void => {
       if (Object.keys(filterParams).includes('stock')) {
         resultArray = rangeHandler(resultArray, 'stock');
       }
+      if (Object.keys(filterParams).includes('sort')) {
+        const sortParams: string[] = filterParams.sort.split('-')
+        resultArray = sortingHandler(resultArray, sortParams[1], sortParams[0]);
+      }
       if (typeof resultArray !== 'undefined' && resultArray.length > 0) {
-        renderArea.style.removeProperty('place-content');
+        if (renderArea.style.placeContent) renderArea.style.removeProperty('place-content');
         renderArea.innerHTML = '';
         for (let i = 0; i < resultArray.length; i++) {
           mainRender(resultArray[i]);
         }
       }
-      console.log(resultArray);
+      console.log('resultArray: ', resultArray);
       counterItems.innerHTML = addZero(resultArray.length);
     })
     .catch((e) => console.log(e));
