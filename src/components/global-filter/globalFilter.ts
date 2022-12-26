@@ -82,7 +82,7 @@ const globalFilter = (): void => {
     return value.toString();
   }
 
-  fetch('https://dummyjson.com/products?limit=12')
+  fetch('https://dummyjson.com/products?limit=51')
     .then((res) => res.json())
     .then((data) => {
       let resultArray = data.products;
@@ -104,7 +104,7 @@ const globalFilter = (): void => {
         resultArray = rangeHandler(resultArray, 'stock');
       }
       if (Object.keys(filterParams).includes('sort')) {
-        const sortParams: string[] = filterParams.sort.split('-')
+        const sortParams: string[] = filterParams.sort.join().split('-')
         resultArray = sortingHandler(resultArray, sortParams[1], sortParams[0]);
       }
       if (typeof resultArray !== 'undefined' && resultArray.length > 0) {

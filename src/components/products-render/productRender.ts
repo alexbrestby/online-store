@@ -19,7 +19,7 @@ const productsRender = () => {
     images: string[];
   }[] = [];
 
-  fetch('https://dummyjson.com/products?limit=12')
+  fetch('https://dummyjson.com/products?limit=51')
     .then((res) => res.json())
     .then((data) => {
       counterItems.innerHTML = data.products.length;
