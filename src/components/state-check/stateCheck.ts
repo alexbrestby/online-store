@@ -1,4 +1,5 @@
 import { globalFilter } from "../global-filter/globalFilter";
+import { markLoadedValues } from "../mark-values/markLoadedValues";
 
 const stateCheck = () => {
   const categoryFilters = <HTMLElement>document.querySelector('.category-filter');
@@ -7,6 +8,8 @@ const stateCheck = () => {
   const stockFilters = <HTMLElement>document.querySelector('.stock-filter');
   const searchInput = <HTMLInputElement>document.getElementById('search');
   const sortSelector = <HTMLElement>document.querySelector('.sort-selector');
+  const resetButton = <HTMLElement>document.querySelector('.reset');
+  const copyLinkButton = <HTMLElement>document.querySelector('.copy-link');
 
   //handle listener function
   const handleListener = (e: Event) => {
@@ -70,7 +73,7 @@ const stateCheck = () => {
       globalState.stock = [minStock?.innerHTML, maxStock?.innerHTML];
     }
     if (sortString && (e.target as HTMLSelectElement).id === 'sort-selector') {
-      globalState.sort = sortString;
+      globalState.sort = [sortString];
     }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
     globalFilter();
@@ -79,16 +82,34 @@ const stateCheck = () => {
   [categoryFilters, brandFilters, searchInput].forEach(elem => elem.addEventListener('input', handleListener));
   [priceFilters, stockFilters].forEach(elem => elem.addEventListener('change', handleListener));
   [sortSelector].forEach(elem => elem.addEventListener('change', handleListener));
+  resetButton.addEventListener('click', function () {
+    history.pushState({}, '', '/');
+    location.search = '';
+    globalFilter();
+  });
+  copyLinkButton.addEventListener('click', function () {
+    navigator.clipboard.writeText(location.href);
+    copyLinkButton.innerHTML = `Copied`;
+    setTimeout(() => {
+      copyLinkButton.innerHTML = `Copy link`;
+    }, 1000);
+  })
 
-  // сброс state к значению null
-  if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-    history.pushState(null, '', '');
-    console.log('страница перезагружена');
+  // начальная проверка параметров при перезагрузке
+  if (location.search.slice(1)) {
+    const stateObjectInArray = location.search.slice(1).split('&');
+    const globalFilterInit: any = {};
+    for (const key of stateObjectInArray) {
+      globalFilterInit[key.split('=')[0]] = key.split('=')[1].split(',');
+    }
+    console.log(globalFilterInit);
+    history.pushState(globalFilterInit, '');
+    // расставляем галочки
+    markLoadedValues();
   }
-  console.log(
-    'параметры из URL для фильтрации элементов после обновления страницы:',
-    location.search.slice(1).split('&')
-  );
+  // пропускаем через фильтр
+  globalFilter();
+
 
   // TODO: npm run lint
 };
