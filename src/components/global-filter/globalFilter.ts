@@ -89,7 +89,6 @@ const globalFilter = (): void => {
 
       if (Object.keys(filterParams).includes('search')) {
         resultArray = searchHandler(resultArray);
-        if (resultArray.length < 1 && searchInput.value.length >= 3) noFoundRender();
       }
       if (Object.keys(filterParams).includes('brand')) {
         resultArray = checkboxHandler(resultArray, 'brand');
@@ -113,6 +112,8 @@ const globalFilter = (): void => {
         for (let i = 0; i < resultArray.length; i++) {
           mainRender(resultArray[i]);
         }
+      } else {
+        noFoundRender();
       }
       console.log('resultArray: ', resultArray);
       counterItems.innerHTML = addZero(resultArray.length);

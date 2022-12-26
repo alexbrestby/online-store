@@ -11,6 +11,14 @@ const stateCheck = () => {
   const resetButton = <HTMLElement>document.querySelector('.reset');
   const copyLinkButton = <HTMLElement>document.querySelector('.copy-link');
 
+  // фомируем query string
+  function formQueryString(currentState: any): string {
+    let queryString = '';
+    Object.keys(currentState).forEach((elem) => (queryString += `${elem}=${currentState[elem]}*`));
+    queryString = queryString.replace(/\*/gi, '&').slice(0, -1);
+    return queryString;
+  }
+
   //handle listener function
   const handleListener = (e: Event) => {
     console.clear();
@@ -38,14 +46,6 @@ const stateCheck = () => {
     const maxPrice = document.getElementById('range2');
     const minStock = document.getElementById('range3');
     const maxStock = document.getElementById('range4');
-
-    // фомируем query string
-    function formQueryString(currentState: any): string {
-      let queryString = '';
-      Object.keys(currentState).forEach((elem) => (queryString += `${elem}=${currentState[elem]}*`));
-      queryString = queryString.replace(/\*/gi, '&').slice(0, -1);
-      return queryString;
-    }
 
     // флаг для определения фильтра (brand or category)
     const flag = (e.target as HTMLElement).parentElement?.classList.value.split('-')[0];
@@ -102,14 +102,28 @@ const stateCheck = () => {
     for (const key of stateObjectInArray) {
       globalFilterInit[key.split('=')[0]] = key.split('=')[1].split(',');
     }
-    console.log(globalFilterInit);
-    history.pushState(globalFilterInit, '');
+    history.pushState(globalFilterInit, '', `?${formQueryString(globalFilterInit)}`);
     // расставляем галочки
-    markLoadedValues();
+    markLoadedValues('initialLoad');
   }
   // пропускаем через фильтр
   globalFilter();
 
+
+  window.addEventListener('popstate', function (e) {
+    const stateObjectInArray = (e.currentTarget as Window).location.search.slice(1).split('&');
+    console.log('state: ', stateObjectInArray);
+    const globalFilterInit: any = {};
+    if ((e.currentTarget as Window).location.search.slice(1).split('&').join('')) {
+      for (const key of stateObjectInArray) {
+        globalFilterInit[key.split('=')[0]] = key.split('=')[1].split(',');
+      }
+    }
+    // расставляем галочки
+    markLoadedValues('popstate');
+    globalFilter();
+  })
+  // пропускаем через фильтр
 
   // TODO: npm run lint
 };
