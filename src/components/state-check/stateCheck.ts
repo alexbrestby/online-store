@@ -11,6 +11,7 @@ const stateCheck = () => {
   const resetButton = <HTMLElement>document.querySelector('.reset');
   const copyLinkButton = <HTMLElement>document.querySelector('.copy-link');
 
+
   //handle listener function
   const handleListener = (e: Event) => {
     console.clear();
@@ -74,6 +75,7 @@ const stateCheck = () => {
     }
     if (sortString && (e.target as HTMLSelectElement).id === 'sort-selector') {
       globalState.sort = [sortString];
+
     }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
     globalFilter();
@@ -94,6 +96,7 @@ const stateCheck = () => {
       copyLinkButton.innerHTML = `Copy link`;
     }, 1000);
   })
+
 
   // начальная проверка параметров при перезагрузке
   if (location.search.slice(1)) {
