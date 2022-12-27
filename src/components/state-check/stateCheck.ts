@@ -1,5 +1,6 @@
-import { globalFilter } from "../global-filter/globalFilter";
-import { markLoadedValues } from "../mark-values/markLoadedValues";
+import { globalFilter } from '../global-filter/globalFilter';
+import { markLoadedValues } from '../mark-values/markLoadedValues';
+import { HistoryState } from '../types/types';
 
 const stateCheck = () => {
   const categoryFilters = <HTMLElement>document.querySelector('.category-filter');
@@ -12,9 +13,9 @@ const stateCheck = () => {
   const copyLinkButton = <HTMLElement>document.querySelector('.copy-link');
 
   // фомируем query string
-  function formQueryString(currentState: any): string {
+  function formQueryString(currentState: HistoryState): string {
     let queryString = '';
-    Object.keys(currentState).forEach((elem) => (queryString += `${elem}=${currentState[elem]}*`));
+    Object.entries(currentState).forEach(([key, value]) => (queryString += `${key}=${value as string}*`));
     queryString = queryString.replace(/\*/gi, '&').slice(0, -1);
     return queryString;
   }
@@ -27,8 +28,8 @@ const stateCheck = () => {
     const searchString = searchInput.value || '';
     let sortString = '';
     (sortSelector as HTMLSelectElement).selectedOptions[0].value === 'sort-title'
-      ? sortString = ''
-      : sortString = (sortSelector as HTMLSelectElement).selectedOptions[0].value;
+      ? (sortString = '')
+      : (sortString = (sortSelector as HTMLSelectElement).selectedOptions[0].value);
     const brandsArray: string[] = [];
     const categoriesArray: string[] = [];
     const checkedBoxes = document.querySelectorAll('.checkbox:checked');
@@ -50,10 +51,10 @@ const stateCheck = () => {
     // флаг для определения фильтра (brand or category)
     const flag = (e.target as HTMLElement).parentElement?.classList.value.split('-')[0];
 
-    let globalState = history.state;
+    let globalState = history.state as HistoryState;
     // формируем объект history.state
     if (!globalState) {
-      globalState = globalState = {};
+      globalState = {} as HistoryState;
     }
     if (searchString) {
       globalState.search = searchString;
@@ -67,24 +68,26 @@ const stateCheck = () => {
       !brandsArray.length ? delete globalState.brand : (globalState.brand = brandsArray);
     }
     if ((e.target as HTMLInputElement).id === 'slider-1' || (e.target as HTMLInputElement).id === 'slider-2') {
-      globalState.price = [minPrice?.innerHTML, maxPrice?.innerHTML];
+      globalState.price = [minPrice?.innerHTML as string, maxPrice?.innerHTML as string];
     }
     if ((e.target as HTMLInputElement).id === 'slider-3' || (e.target as HTMLInputElement).id === 'slider-4') {
-      globalState.stock = [minStock?.innerHTML, maxStock?.innerHTML];
+      globalState.stock = [minStock?.innerHTML as string, maxStock?.innerHTML as string];
     }
     if (sortString && (e.target as HTMLSelectElement).id === 'sort-selector') {
       globalState.sort = [sortString];
     }
     history.pushState(globalState, '', `?${formQueryString(globalState)}`);
     globalFilter();
-  }
+  };
 
   // начальная проверка параметров при перезагрузке страницы
   if (location.search.slice(1)) {
     const stateObjectInArray = location.search.slice(1).split('&');
-    const globalFilterInit: any = {};
+    let globalFilterInit = {} as HistoryState;
     for (const key of stateObjectInArray) {
-      globalFilterInit[key.split('=')[0]] = key.split('=')[1].split(',');
+      const objectValue = key.split('=')[1].split(',');
+      const newObject = { [key.split('=')[0]]: objectValue };
+      globalFilterInit = { ...globalFilterInit, ...newObject };
     }
     history.pushState(globalFilterInit, '', `?${formQueryString(globalFilterInit)}`);
     // расставляем галочки
@@ -94,26 +97,30 @@ const stateCheck = () => {
   globalFilter();
 
   // ФУНКЦИИ ОБРАБОТЧИКИ
-  [categoryFilters, brandFilters, searchInput].forEach(elem => elem.addEventListener('input', mainStateCheck));
-  [priceFilters, stockFilters].forEach(elem => elem.addEventListener('change', mainStateCheck));
-  [sortSelector].forEach(elem => elem.addEventListener('change', mainStateCheck));
+  [categoryFilters, brandFilters, searchInput].forEach((elem) => elem.addEventListener('input', mainStateCheck));
+  [priceFilters, stockFilters].forEach((elem) => elem.addEventListener('change', mainStateCheck));
+  [sortSelector].forEach((elem) => elem.addEventListener('change', mainStateCheck));
   resetButton.addEventListener('click', function () {
     history.pushState({}, '', '/');
     location.search = '';
     globalFilter();
   });
   copyLinkButton.addEventListener('click', function () {
-    navigator.clipboard.writeText(location.href);
-    copyLinkButton.innerHTML = `Copied`;
-    setTimeout(() => {
-      copyLinkButton.innerHTML = `Copy link`;
-    }, 1000);
-  })
+    navigator.clipboard
+      .writeText(location.href)
+      .then(() => {
+        copyLinkButton.innerHTML = `Copied`;
+        setTimeout(() => {
+          copyLinkButton.innerHTML = `Copy link`;
+        }, 1000);
+      })
+      .catch((e) => console.log(e));
+  });
   // проверка параметров при использовании кнопок истории браузера
-  window.addEventListener('popstate', function (e) {
+  window.addEventListener('popstate', function () {
     markLoadedValues('popstate');
     globalFilter();
-  })
+  });
 
   // TODO: npm run lint
 };
