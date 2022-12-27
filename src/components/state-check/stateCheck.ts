@@ -19,8 +19,8 @@ const stateCheck = () => {
     return queryString;
   }
 
-  //handle listener function
-  const handleListener = (e: Event) => {
+  // функция - главный обработчик состояния
+  const mainStateCheck = (e: Event) => {
     console.clear();
 
     // получаем значения из отмеченных чекбосов
@@ -79,23 +79,7 @@ const stateCheck = () => {
     globalFilter();
   }
 
-  [categoryFilters, brandFilters, searchInput].forEach(elem => elem.addEventListener('input', handleListener));
-  [priceFilters, stockFilters].forEach(elem => elem.addEventListener('change', handleListener));
-  [sortSelector].forEach(elem => elem.addEventListener('change', handleListener));
-  resetButton.addEventListener('click', function () {
-    history.pushState({}, '', '/');
-    location.search = '';
-    globalFilter();
-  });
-  copyLinkButton.addEventListener('click', function () {
-    navigator.clipboard.writeText(location.href);
-    copyLinkButton.innerHTML = `Copied`;
-    setTimeout(() => {
-      copyLinkButton.innerHTML = `Copy link`;
-    }, 1000);
-  })
-
-  // начальная проверка параметров при перезагрузке
+  // начальная проверка параметров при перезагрузке страницы
   if (location.search.slice(1)) {
     const stateObjectInArray = location.search.slice(1).split('&');
     const globalFilterInit: any = {};
@@ -109,21 +93,27 @@ const stateCheck = () => {
   // пропускаем через фильтр
   globalFilter();
 
-
+  // ФУНКЦИИ ОБРАБОТЧИКИ
+  [categoryFilters, brandFilters, searchInput].forEach(elem => elem.addEventListener('input', mainStateCheck));
+  [priceFilters, stockFilters].forEach(elem => elem.addEventListener('change', mainStateCheck));
+  [sortSelector].forEach(elem => elem.addEventListener('change', mainStateCheck));
+  resetButton.addEventListener('click', function () {
+    history.pushState({}, '', '/');
+    location.search = '';
+    globalFilter();
+  });
+  copyLinkButton.addEventListener('click', function () {
+    navigator.clipboard.writeText(location.href);
+    copyLinkButton.innerHTML = `Copied`;
+    setTimeout(() => {
+      copyLinkButton.innerHTML = `Copy link`;
+    }, 1000);
+  })
+  // проверка параметров при использовании кнопок истории браузера
   window.addEventListener('popstate', function (e) {
-    const stateObjectInArray = (e.currentTarget as Window).location.search.slice(1).split('&');
-    console.log('state: ', stateObjectInArray);
-    const globalFilterInit: any = {};
-    if ((e.currentTarget as Window).location.search.slice(1).split('&').join('')) {
-      for (const key of stateObjectInArray) {
-        globalFilterInit[key.split('=')[0]] = key.split('=')[1].split(',');
-      }
-    }
-    // расставляем галочки
     markLoadedValues('popstate');
     globalFilter();
   })
-  // пропускаем через фильтр
 
   // TODO: npm run lint
 };

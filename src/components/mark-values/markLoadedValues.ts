@@ -1,5 +1,5 @@
-import { priceSlider } from "../price-slider/priceSlider";
-import { stockSlider } from "../stock-slider/stockSlider";
+import { priceSlider } from '../main-render/price-slider/priceSlider'
+import { stockSlider } from '../main-render/stock-slider/stockSlider';
 
 const markLoadedValues = (eventParam: string) => {
   const globalState = history.state;
@@ -17,47 +17,47 @@ const markLoadedValues = (eventParam: string) => {
         (element as HTMLInputElement).checked = false;
       }
     });
-
-    if (!globalState.sort) { sortOption.value = 'sort-title' }
-    if (!globalState.price) {
+    if (!globalState || !globalState.sort) {
+      sortOption.value = 'sort-title';
+    }
+    if (!globalState || !globalState.price) {
       minPrice.value = '10';
       maxPrice.value = '1749';
       priceSlider();
     }
-    if (!globalState.stock) {
+    if (!globalState || !globalState.stock) {
       minStock.value = '2';
       maxStock.value = '150';
       stockSlider();
     }
-    globalState.search ? searchInput.value = globalState.search : searchInput.value = '';
+    globalState && globalState.search ? searchInput.value = globalState.search : searchInput.value = '';
   }
 
-  if (globalState.category) {
+  if (globalState && globalState.category) {
     for (let i = 0; i < globalState.category.length; i++) {
       const categoriesArray = <HTMLInputElement>document.getElementById(`${globalState.category[i]}`);
       categoriesArray.checked = true;
     }
   }
-  if (globalState.brand) {
+  if (globalState && globalState.brand) {
     for (let i = 0; i < globalState.brand.length; i++) {
       const brandsArray = <HTMLInputElement>document.getElementById(`${globalState.brand[i]}`);
       brandsArray.checked = true;
     }
   }
-  if (globalState.sort) {
+  if (globalState && globalState.sort) {
     sortOption.value = globalState.sort.join();
   }
-  if (globalState.price) {
+  if (globalState && globalState.price) {
     minPrice.value = globalState.price[0];
     maxPrice.value = globalState.price[1];
     priceSlider();
   }
-  if (globalState.stock) {
+  if (globalState && globalState.stock) {
     minStock.value = globalState.stock[0];
     maxStock.value = globalState.stock[1];
     stockSlider();
   }
 }
-
 
 export { markLoadedValues };

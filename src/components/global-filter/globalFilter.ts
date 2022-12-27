@@ -1,10 +1,9 @@
-import { mainRender } from '../products-render/main-render/mainRender';
-import { noFoundRender } from '../products-render/no-found-render/noFoundRender';
+import { productsRender } from '../main-render/products-render/productsRender';
+import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
 
 const globalFilter = (): void => {
   const renderArea = <HTMLElement>document.querySelector('.render-area');
   const counterItems = <Element>document.querySelector('.header-found span');
-  const searchInput = <HTMLInputElement>document.getElementById('search');
 
   const filterParams = { ...history.state };
   console.log(filterParams);
@@ -110,12 +109,12 @@ const globalFilter = (): void => {
         if (renderArea.style.placeContent) renderArea.style.removeProperty('place-content');
         renderArea.innerHTML = '';
         for (let i = 0; i < resultArray.length; i++) {
-          mainRender(resultArray[i]);
+          productsRender(resultArray[i]);
         }
       } else {
         noFoundRender();
       }
-      console.log('resultArray: ', resultArray);
+      // console.log('resultArray: ', resultArray);
       counterItems.innerHTML = addZero(resultArray.length);
     })
     .catch((e) => console.log(e));

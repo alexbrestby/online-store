@@ -1,4 +1,4 @@
-import './main-render.css';
+import './product-render.css';
 
 function getNonNullKeys(obj: IbasketRender) {
   let quantity = 0;
@@ -36,7 +36,7 @@ export const refreshBasketRender = () => {
   // console.log('refreshBasketRender()=>basketRender', basketRender);
 };
 
-export const mainRender = (product: Iproduct) => {
+export const productsRender = (product: Iproduct) => {
   refreshTotalItemInBasket();
 
   const render = document.querySelector('.render-area');
