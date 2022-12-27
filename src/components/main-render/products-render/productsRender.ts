@@ -1,6 +1,6 @@
 import './product-render.css';
 
-function getNonNullKeys(obj: IbasketRender) {
+export function getNonNullKeys(obj: IbasketRender) {
   let quantity = 0;
   for (let item of Object.values(obj)) {
     if (item > 0) {
@@ -13,7 +13,7 @@ interface IbasketRender {
   [ind: string]: number;
 }
 
-let basketRender: IbasketRender;
+export let basketRender: IbasketRender;
 const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
 interface Iproduct {
   id: number;

@@ -1,0 +1,245 @@
+.header-cart__img:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  transition: 0.5s;
+}
+.content-wrapper {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  flex-grow: 1;
+}
+.basket{
+  width: 100%;
+}
+.basket-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.products-in-cart {
+  width: 69%;
+  border: 1px solid darkorange;
+  overflow: hidden;
+  border-radius: 20px;
+  background-color: #1e1b1b80;
+  height: fit-content;
+}
+.title-and-page-control {
+  display: flex;
+  background-color: #181a1c;
+  padding: 0.3rem;
+  border-bottom: 1px solid darkorange;
+  align-items: center;
+  justify-content: space-between;
+  color: darkorange;
+}
+
+.page-control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.page-control input {
+  width: 2rem;
+  text-align: center;
+  outline: none;
+  border: 1px solid darkorange;
+  color:darkorange;
+  border-radius: 0.2rem;
+  background-color: #373636;
+  font-size: 140%;
+}
+.page-numbers[_ngcontent-xtj-c24] {
+  margin-left: 2rem;
+  color: wheat;
+}
+.page-numbers button {
+  background-color: #373636;
+  cursor: pointer;
+  border: 1px solid darkorange;
+  color: darkorange;
+  border-radius: 0.2rem;
+  padding: 0.1rem;
+  font-size: 140%;
+}
+.page-numbers span {
+  font-size: 140%;
+  margin: 0 0.5rem;
+}
+
+.prod-items {
+  width: 100%;
+}
+.prod-cart-item {
+  width: 100%;
+  display: block;
+  padding: 0.5%;
+  border-bottom: 1px solid darkorange;
+}
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  height: 5rem;
+}
+.item-i {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  text-align: center;
+  border: 1px solid darkorange;
+  background-color: #181a1c;
+  color: darkorange;
+}
+.item-info {
+  width: 75%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.item-info img {
+  width: 20%;
+  height: 100%;
+  border-radius: 0.5rem;
+  border: 0.2px solid darkorange;
+}
+.item-detail-p {
+  width: 80%;
+  height: 100%;
+  padding: 1%;
+}
+.product-title {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid darkorange;
+}
+.product-title h3 {
+  color: darkorange;
+  padding-bottom: 1%;
+}
+
+.product-description {
+  padding-top: 1%;
+  color: wheat;
+  font-size: 80%;
+  text-align: center;
+}
+
+.product-other {
+  padding-top: 1%;
+  display: flex;
+  align-items: end;
+  justify-content: space-around;
+}
+.product-other div[_ngcontent-xtj-c21] {
+  color: #dca031;
+  font-size: 80%;
+}
+
+.number-control {
+  width: 15%;
+}
+
+.stock-control, .amount-control {
+  display: flex;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  margin: 7%;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 150%;
+}
+.quantity-control   button {
+  width: 30px;
+  height: 30px;
+  background-color: #181a1c;
+  border-radius: 50%;
+  font-size: 150%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 1px solid darkorange;
+  color: darkorange;
+}
+
+.total-cart {
+  width: 29%;
+  border: 1px solid darkorange;
+  overflow: hidden;
+  border-radius: .5rem;
+  background-color: #1e1b1b80;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.total-cart h2 {
+  text-align: center;
+  font-size: 130%;
+  background-color: #181a1c;
+  padding: .3rem;
+  border-bottom: 1px solid darkorange;
+  color: darkorange;
+}
+.total-price {
+  width: 90%;
+  font-size: 170%;
+  color: wheat;
+  text-align: center;
+  margin: 4%;
+}
+.total-price {
+  width: 90%;
+  font-size: 170%;
+  color: wheat;
+  text-align: center;
+  margin: 4%;
+}
+.promo-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.promo-code input {
+  background-color: #181a1c;
+  width: 70%;
+  border: 1px solid darkorange;
+  color: darkorange;
+  border-radius: 2rem;
+  padding: .4rem;
+  text-align: center;
+  outline: none;
+  font-size: 100%;
+}
+.promo-ex {
+  display: block;
+  margin: 3% auto;
+  text-align: center;
+  color: #e38383;
+}
+.total-cart button {
+  font-size: 100%;
+  display: block;
+  padding: 2% 0;
+  background: #9a3535;
+  color: wheat;
+  border: 2px solid darkorange;
+  border-radius: .3rem;
+  cursor: pointer;
+  width: 50%;
+  margin: 3rem auto 1rem;
+}
+
+
+
+
+.display-none {
+  display: none;
+}

@@ -13,7 +13,11 @@
   <div class="wrapper">
     <header class="header">
       <div class="header-logo">
-        <div class="header-logo__img"><img src="<%= require('./assets/images/logo.png') %>" /></div>
+        <div class="header-logo__img">
+          <a href="/">
+            <img src="<%= require('./assets/images/logo.png') %>" />
+          </a>
+        </div>
       </div>
       <div class="header-search">
         <div class="header-search__input">
@@ -32,70 +36,131 @@
       </div>
     </header>
     <div class="main">
-      <div class="filters-area">
-        <div class="global-filters">
-          <div class="reset">Reset Filters</div>
-          <div class="copy-link">Copy Link</div>
-        </div>
-        <div class="sort-filters">
-          <select name="sort" id="sort-selector" class="sort-selector">
-            <option value="sort-title" class="sort-title" disabled selected>Sort-options</option>
-            <option value="price-asc">price &#8679;</option>
-            <option value="price-desc">price &#8681;</option>
-            <option value="rating-asc">rating &#8679;<i class="gg-push-up"></i></option>
-            <option value="rating-desc">rating &#8681;</option>
-          </select>
-        </div>
-        <div class="category-filter">
-          <h3><i class="gg-list"></i>Category</h3>
-          <div class="category-filter__list">
+      <div class="content-wrapper">
+        <div class="filters-area">
+          <div class="global-filters">
+            <div class="reset">Reset Filters</div>
+            <div class="copy-link">Copy Link</div>
           </div>
-        </div>
-        <div class="brand-filter">
-          <h3><i class="gg-list"></i>Brand</h3>
-          <div class="brand-filter__list">
+          <div class="sort-filters">
+            <select name="sort" id="sort-selector" class="sort-selector">
+              <option value="sort-title" class="sort-title" disabled selected>Sort-options</option>
+              <option value="price-asc">price &#8679;</option>
+              <option value="price-desc">price &#8681;</option>
+              <option value="rating-asc">rating &#8679;<i class="gg-push-up"></i></option>
+              <option value="rating-desc">rating &#8681;</option>
+            </select>
           </div>
-        </div>
-        <div class="price-filter">
-          <h3><i class="gg-format-line-height"></i>Price</h3>
-          <div class="price-filter__slider">
-            <div class="values">€
-              <span id="range1">
-                0
-              </span>
-              <span> &dash; </span>
-              <span id="range2">
-                100
-              </span>
-            </div>
-            <div class="container">
-              <div class="slider-track"></div>
-              <input type="range" min="10" max="1749" value="10" id="slider-1">
-              <input type="range" min="10" max="1749" value="1749" id="slider-2">
+          <div class="category-filter">
+            <h3><i class="gg-list"></i>Category</h3>
+            <div class="category-filter__list">
             </div>
           </div>
+          <div class="brand-filter">
+            <h3><i class="gg-list"></i>Brand</h3>
+            <div class="brand-filter__list">
+            </div>
+          </div>
+          <div class="price-filter">
+            <h3><i class="gg-format-line-height"></i>Price</h3>
+            <div class="price-filter__slider">
+              <div class="values">€
+                <span id="range1">
+                  0
+                </span>
+                <span> &dash; </span>
+                <span id="range2">
+                  100
+                </span>
+              </div>
+              <div class="container">
+                <div class="slider-track"></div>
+                <input type="range" min="10" max="1749" value="10" id="slider-1">
+                <input type="range" min="10" max="1749" value="1749" id="slider-2">
+              </div>
+            </div>
+          </div>
+          <div class="stock-filter">
+            <h3><i class="gg-format-line-height"></i>Stock</h3>
+            <div class="stock-filter__slider">
+              <div class="values">
+                <span id="range3">
+                  0
+                </span>
+                <span> &dash; </span>
+                <span id="range4">
+                  100
+                </span>
+              </div>
+              <div class="container">
+                <div class="slider-track-2"></div>
+                <input type="range" min="2" max="150" value="2" id="slider-3">
+                <input type="range" min="2" max="150" value="150" id="slider-4">
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="stock-filter">
-          <h3><i class="gg-format-line-height"></i>Stock</h3>
-          <div class="stock-filter__slider">
-            <div class="values">
-              <span id="range3">
-                0
-              </span>
-              <span> &dash; </span>
-              <span id="range4">
-                100
-              </span>
+        <div class="render-area"></div>
+      </div>
+      <div class="basket display-none">
+        <div class="basket-wrapper">
+          <div class="products-in-cart">
+            <div class="title-and-page-control">
+              <h2>Products In Cart</h2>
+              <div class="page-control">
+                <form action="">
+                  <div class="limit">
+                    ITEMS:
+                    <input type="number" min="1" max="9" value="3" class="items-per-page">
+                  </div>
+                </form>
+                <div class="page-numbers">
+                  PAGE:
+                  <button> &lt; </button>
+                  <span>1</span>
+                  <button> &gt; </button>
+                </div>
+              </div>
             </div>
-            <div class="container">
-              <div class="slider-track-2"></div>
-              <input type="range" min="2" max="150" value="2" id="slider-3">
-              <input type="range" min="2" max="150" value="150" id="slider-4">
+            <div class="prod-items">
+              <div class="prod-cart-item">
+                <div class="cart-item">
+                  <div class="item-i"> 1 </div>
+                  <div class="item-info" tabindex="0">
+                    <img alt="" src="https://i.dummyjson.com/data/products/3/thumbnail.jpg">
+                    <div class="item-detail-p">
+                      <div class="product-title">
+                        <h3>Samsung Universe 9</h3>
+                      </div>
+                      <div class="product-description"> Samsung's new variant which goes beyond
+                        Galaxy to the Universe </div>
+                      <div class="product-other">
+                        <div>Rating: 4.09</div>
+                        <div>Discount: 15.46%</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="number-control">
+                    <div class="stock-control"> Stock: 36 </div>
+                    <div class="quantity-control"><button>+</button> 1 <button>-</button></div>
+                    <div class="amount-control"> €1,249.00 </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+          <div class="total-cart">
+            <h2>Summary</h2>
+            <div class="total-price"><span>Products:</span> 2 </div>
+            <div class="total-price"><span>Total:</span> €1,529.00 </div>
+            <div class="promo-code">
+              <input type="search" placeholder="Enter promo code" class="ng-untouched ng-pristine ng-valid">
+            </div>
+            <span class="promo-ex">Promo for test: 'RS', 'EPM'</span>
+            <button>BUY NOW</button>
           </div>
         </div>
       </div>
-      <div class="render-area"></div>
     </div>
     <div class="footer">
       <div class="repository">
