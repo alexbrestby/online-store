@@ -12,6 +12,7 @@ export const basketBlock = () => {
     console.log("document.querySelector('.items-per-page')=", itemsPerPage.value);
     mainBlock?.classList.add('display-none');
     basketDiv?.classList.remove('display-none');
+    
   });
 };
 
