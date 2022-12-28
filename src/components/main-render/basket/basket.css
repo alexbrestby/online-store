@@ -80,7 +80,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: 5rem;
+  /* height: 130px; */
 }
 .item-i {
   width: 25px;

@@ -1,6 +1,7 @@
 import { productsRender } from '../main-render/products-render/productsRender';
 import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
 
+let resultArray;
 const globalFilter = (): void => {
   const renderArea = <HTMLElement>document.querySelector('.render-area');
   const counterItems = <Element>document.querySelector('.header-found span');
@@ -84,7 +85,8 @@ const globalFilter = (): void => {
   fetch('https://dummyjson.com/products?limit=51')
     .then((res) => res.json())
     .then((data) => {
-      let resultArray = data.products;
+      resultArray = data.products;
+      console.log('resultArray=',resultArray);
 
       if (Object.keys(filterParams).includes('search')) {
         resultArray = searchHandler(resultArray);
@@ -114,10 +116,10 @@ const globalFilter = (): void => {
       } else {
         noFoundRender();
       }
-      // console.log('resultArray: ', resultArray);
+      console.log('resultArray: ', resultArray);
       counterItems.innerHTML = addZero(resultArray.length);
     })
     .catch((e) => console.log(e));
 };
 
-export { globalFilter };
+export { globalFilter, resultArray };

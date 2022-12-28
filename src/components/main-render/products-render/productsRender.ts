@@ -1,5 +1,6 @@
 import './product-render.css';
 
+//функция возвращает количество ненулевых ключей(кол-во товара ключа больше 0) 
 export function getNonNullKeys(obj: IbasketRender) {
   let quantity = 0;
   for (let item of Object.values(obj)) {
@@ -8,6 +9,16 @@ export function getNonNullKeys(obj: IbasketRender) {
     }
   }
   return quantity;
+}
+
+//функция удаляет id со значением 0 и возвращает сумму количества всех товаров 
+export function getTotalNumberGoods(obj:IbasketRender) {
+  for (let key of Object.keys(obj)) {
+    if (obj[key] === 0) {
+      delete obj[key];
+    }
+  }
+  return Object.values(obj).reduce((a, b) => a + b, 0);;
 }
 interface IbasketRender {
   [ind: string]: number;
@@ -29,19 +40,19 @@ interface Iproduct {
   images: string[];
 }
 
-const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + getNonNullKeys(basketRender));
+const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + getTotalNumberGoods(basketRender));
 
 export const refreshBasketRender = () => {
   basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
-  // console.log('refreshBasketRender()=>basketRender', basketRender);
+  return basketRender;
 };
 
 export const productsRender = (product: Iproduct) => {
   refreshTotalItemInBasket();
 
-  const render = document.querySelector('.render-area');
+  const render = <HTMLElement>document.querySelector('.render-area');
 
-  const item = document.createElement('div');
+  const item = <HTMLElement>document.createElement('div');
   item.classList.add('product-item');
 
   item.dataset.id = '' + product.id;
@@ -91,7 +102,7 @@ export const productsRender = (product: Iproduct) => {
   itemWrapper.append(itemInfoBlock);
   item.append(title);
   item.append(itemWrapper);
-  render?.append(item);
+  render.append(item);
 };
 
 const getItemInfoBlock = (product: Iproduct, div: HTMLDivElement) => {
