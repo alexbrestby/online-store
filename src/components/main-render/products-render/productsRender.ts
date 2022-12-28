@@ -1,9 +1,10 @@
 import './product-render.css';
+import { Iproduct, IbasketRender } from '../../types/types';
 
 //функция возвращает количество ненулевых ключей(кол-во товара ключа больше 0) 
 export function getNonNullKeys(obj: IbasketRender) {
   let quantity = 0;
-  for (let item of Object.values(obj)) {
+  for (const item of Object.values(obj)) {
     if (item > 0) {
       quantity++;
     }
@@ -26,19 +27,6 @@ interface IbasketRender {
 
 export let basketRender: IbasketRender;
 const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
-interface Iproduct {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  discountPercentage: number;
-  rating: number;
-  stock: null;
-  brand: string;
-  category: string;
-  thumbnail: string;
-  images: string[];
-}
 
 const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + getTotalNumberGoods(basketRender));
 
@@ -55,24 +43,23 @@ export const productsRender = (product: Iproduct) => {
   const item = <HTMLElement>document.createElement('div');
   item.classList.add('product-item');
 
-  item.dataset.id = '' + product.id;
+  item.dataset.id = `${product.id}`;
   const itemButtonsWrapper = document.createElement('div');
   itemButtonsWrapper.classList.add('item-buttons-wrapper');
 
   const itemWrapperButtonBuy = document.createElement('button');
   itemWrapperButtonBuy.classList.add('item-wrapper-button-buy');
   itemWrapperButtonBuy.classList.add('button');
-  itemWrapperButtonBuy.dataset.buy = '' + product.id;
-  itemWrapperButtonBuy.textContent = basketRender['' + product.id] ? 'remove' : 'add to cart';
+  itemWrapperButtonBuy.dataset.buy = `${product.id}`;
+  itemWrapperButtonBuy.textContent = basketRender[`${product.id}`] ? 'remove' : 'add to cart';
 
   itemWrapperButtonBuy.addEventListener('click', () => {
-    let idIndex = itemWrapperButtonBuy.dataset.buy;
-
-    if (basketRender[idIndex!] < 1 || basketRender[idIndex!] === undefined) {
-      basketRender[idIndex!] = 1;
+    const idIndex = itemWrapperButtonBuy.dataset.buy as string;
+    if (basketRender[idIndex] < 1 || basketRender[idIndex] === undefined) {
+      basketRender[idIndex] = 1;
       itemWrapperButtonBuy.textContent = 'remove';
     } else {
-      basketRender[idIndex!] = 0;
+      basketRender[idIndex] = 0;
       itemWrapperButtonBuy.textContent = 'add to cart';
     }
     refreshTotalItemInBasket();
@@ -82,7 +69,7 @@ export const productsRender = (product: Iproduct) => {
   const itemWrapperButtonInfo = document.createElement('button');
   itemWrapperButtonInfo.classList.add('item-wrapper-button-info');
   itemWrapperButtonInfo.classList.add('button');
-  itemWrapperButtonInfo.dataset.info = '' + product.id;
+  itemWrapperButtonInfo.dataset.info = `${product.id}`;
   itemWrapperButtonInfo.textContent = 'info';
 
   itemButtonsWrapper.append(itemWrapperButtonBuy, itemWrapperButtonInfo);
@@ -106,10 +93,17 @@ export const productsRender = (product: Iproduct) => {
 };
 
 const getItemInfoBlock = (product: Iproduct, div: HTMLDivElement) => {
-  [['category', 'Category'], ['brand', 'Brand'], ['price', 'price'], ['discountPercentage', 'Discount'], ['rating', 'Rating'], ['stock', 'Stock']].forEach((elem) => {
+  [
+    ['category', 'Category'],
+    ['brand', 'Brand'],
+    ['price', 'price'],
+    ['discountPercentage', 'Discount'],
+    ['rating', 'Rating'],
+    ['stock', 'Stock'],
+  ].forEach((elem) => {
     const pItemInfo = document.createElement('p');
     pItemInfo.classList.add('p-item-info');
-    pItemInfo.textContent = '' + product[elem[0] as keyof Iproduct]
+    pItemInfo.textContent = `${product[elem[0] as keyof Iproduct]}`;
     const spanItemInfo = document.createElement('span');
     spanItemInfo.classList.add('span-item-info');
     spanItemInfo.textContent = elem[1] + ': ';

@@ -10,6 +10,6 @@ const noFoundRender = () => {
 
   renderArea.innerHTML = '';
   renderArea.appendChild(noFoundHeader);
+};
 
-}
 export { noFoundRender };

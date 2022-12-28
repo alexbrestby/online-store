@@ -1,8 +1,9 @@
-import { priceSlider } from '../main-render/price-slider/priceSlider'
+import { priceSlider } from '../main-render/price-slider/priceSlider';
 import { stockSlider } from '../main-render/stock-slider/stockSlider';
+import { HistoryState } from '../types/types';
 
 const markLoadedValues = (eventParam: string) => {
-  const globalState = history.state;
+  const globalState = history.state as HistoryState;
   const sortOption = <HTMLInputElement>document.getElementById('sort-selector');
   const minPrice = <HTMLInputElement>document.getElementById('slider-1');
   const maxPrice = <HTMLInputElement>document.getElementById('slider-2');
@@ -12,7 +13,7 @@ const markLoadedValues = (eventParam: string) => {
 
   if (eventParam === 'popstate') {
     const allCheckBoxes = <HTMLCollection>document.getElementsByTagName('input');
-    Array.from(allCheckBoxes).forEach(element => {
+    Array.from(allCheckBoxes).forEach((element) => {
       if ((element as HTMLInputElement).type === 'checkbox') {
         (element as HTMLInputElement).checked = false;
       }
@@ -30,7 +31,7 @@ const markLoadedValues = (eventParam: string) => {
       maxStock.value = '150';
       stockSlider();
     }
-    globalState && globalState.search ? searchInput.value = globalState.search : searchInput.value = '';
+    globalState && globalState.search ? (searchInput.value = globalState.search) : (searchInput.value = '');
   }
 
   if (globalState && globalState.category) {
@@ -58,6 +59,6 @@ const markLoadedValues = (eventParam: string) => {
     maxStock.value = globalState.stock[1];
     stockSlider();
   }
-}
+};
 
 export { markLoadedValues };

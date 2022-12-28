@@ -1,24 +1,23 @@
 import { productsRender } from '../main-render/products-render/productsRender';
 import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
+import { HistoryState, Idata, Iproduct } from '../types/types';
 
 let resultArray;
 const globalFilter = (): void => {
   const renderArea = <HTMLElement>document.querySelector('.render-area');
   const counterItems = <Element>document.querySelector('.header-found span');
 
-  const filterParams = { ...history.state };
-  console.log(filterParams);
+  const filterParams = { ...history.state } as HistoryState;
+  // console.log(filterParams);
 
-  function checkboxHandler(arr: [], filterName: string) {
-    let params: [] = [];
-    const result: [] = [];
-    filterName === 'brand'
-      ? params = filterParams.brand
-      : params = filterParams.category;
+  function checkboxHandler(arr: Iproduct[], filterName: string) {
+    let params: string[] | undefined;
+    const result: Iproduct[] = [];
+    filterName === 'brand' ? (params = filterParams.brand) : (params = filterParams.category);
 
-    arr.forEach(element => {
-      for (let i = 0; i < params.length; i++) {
-        if (Object.values(element).indexOf(params[i]) > -1) {
+    arr.forEach((element: Iproduct) => {
+      for (let i = 0; i < (params as string[]).length; i++) {
+        if (Object.values(element).indexOf((params as string[])[i]) > -1) {
           result.push(element);
         }
       }
@@ -26,14 +25,12 @@ const globalFilter = (): void => {
     return result;
   }
 
-  function rangeHandler(arr: [], rangeName: string) {
-    let params = [];
-    const result: [] = [];
-    rangeName === 'price'
-      ? params = filterParams.price
-      : params = filterParams.stock;
+  function rangeHandler(arr: Iproduct[], rangeName: string) {
+    let params: string[] | undefined = [];
+    const result: Iproduct[] = [];
+    rangeName === 'price' ? (params = filterParams.price) : (params = filterParams.stock);
 
-    for (let element of arr) {
+    for (const element of arr) {
       if (element[rangeName] >= params[0] && element[rangeName] <= params[1]) {
         result.push(element);
       }
@@ -41,16 +38,16 @@ const globalFilter = (): void => {
     return result;
   }
 
-  function searchHandler(arr: any[]) {
+  function searchHandler(arr: Iproduct[]) {
     let params = '';
-    filterParams.search.length >= 3 ? params = filterParams.search : params = '';
+    (filterParams.search as string).length >= 3 ? (params = filterParams.search as string) : (params = '');
     const result = [];
     if (params) {
       for (let i = 0; i < arr.length; i++) {
-        for (let elem in arr[i]) {
+        for (const elem in arr[i]) {
           if (typeof arr[i][elem] === 'string' && elem !== 'thumbnail') {
-            // if (arr[i][elem].toLowerCase().startsWith(params)) {               //для поиска по началу вхождения
-            if (arr[i][elem].toLowerCase().includes(params.toLowerCase())) {      //для поиска по всему выражению
+            // if (arr[i][elem].toLowerCase().startsWith(params)) {
+            if ((arr[i][elem] as string).toLowerCase().includes(params.toLowerCase())) {
               result.push(arr[i]);
             }
           }
@@ -60,33 +57,32 @@ const globalFilter = (): void => {
     return [...new Set(result)];
   }
 
-  function sortingHandler(arr: [], sortDirection: string, sortMode: string) {
-    let result: any[] = [];
+  function sortingHandler(arr: Iproduct[], sortDirection: string, sortMode: string) {
+    let result: Iproduct[] = [];
     if (sortDirection === 'asc' && sortMode === 'price') {
-      result = Object.values(arr).sort((a: any, b: any) => a.price - b.price);
+      result = Object.values(arr).sort((a: Iproduct, b: Iproduct) => a.price - b.price);
     }
     if (sortDirection === 'desc' && sortMode === 'price') {
-      result = Object.values(arr).sort((a: any, b: any) => b.price - a.price);
+      result = Object.values(arr).sort((a: Iproduct, b: Iproduct) => b.price - a.price);
     }
     if (sortDirection === 'asc' && sortMode === 'rating') {
-      result = Object.values(arr).sort((a: any, b: any) => a.rating - b.rating);
+      result = Object.values(arr).sort((a: Iproduct, b: Iproduct) => a.rating - b.rating);
     }
     if (sortDirection === 'desc' && sortMode === 'rating') {
-      result = Object.values(arr).sort((a: any, b: any) => b.rating - a.rating);
+      result = Object.values(arr).sort((a: Iproduct, b: Iproduct) => b.rating - a.rating);
     }
     return result;
   }
 
   function addZero(value: number | string): string {
-    if (value < 10) value = '0' + value;
+    if (value < 10) value = `0${value}`;
     return value.toString();
   }
 
   fetch('https://dummyjson.com/products?limit=51')
     .then((res) => res.json())
-    .then((data) => {
-      resultArray = data.products;
-      console.log('resultArray=',resultArray);
+    .then((data: Idata) => {
+      let resultArray = data.products as Iproduct[];
 
       if (Object.keys(filterParams).includes('search')) {
         resultArray = searchHandler(resultArray);
@@ -104,7 +100,7 @@ const globalFilter = (): void => {
         resultArray = rangeHandler(resultArray, 'stock');
       }
       if (Object.keys(filterParams).includes('sort')) {
-        const sortParams: string[] = filterParams.sort.join().split('-')
+        const sortParams: string[] = filterParams.sort.join().split('-');
         resultArray = sortingHandler(resultArray, sortParams[1], sortParams[0]);
       }
       if (typeof resultArray !== 'undefined' && resultArray.length > 0) {
