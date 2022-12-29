@@ -21,9 +21,6 @@ export function getTotalNumberGoods(obj:IbasketRender) {
   }
   return Object.values(obj).reduce((a, b) => a + b, 0);;
 }
-interface IbasketRender {
-  [ind: string]: number;
-}
 
 export let basketRender: IbasketRender;
 const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
