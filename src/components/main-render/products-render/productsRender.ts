@@ -1,7 +1,9 @@
 import './product-render.css';
 import { Iproduct, IbasketRender } from '../../types/types';
 
-//функция возвращает количество ненулевых ключей(кол-во товара ключа больше 0) 
+export let basketRender: IbasketRender;
+
+//функция возвращает количество ненулевых ключей(кол-во товара ключа больше 0)
 export function getNonNullKeys(obj: IbasketRender) {
   let quantity = 0;
   for (const item of Object.values(obj)) {
@@ -12,26 +14,37 @@ export function getNonNullKeys(obj: IbasketRender) {
   return quantity;
 }
 
-//функция удаляет id со значением 0 и возвращает сумму количества всех товаров 
-export function getTotalNumberGoods(obj:IbasketRender) {
+//функция удаляет id со значением 0 и возвращает сумму количества всех товаров
+export function getTotalNumberGoods(obj: IbasketRender) {
   for (let key of Object.keys(obj)) {
     if (obj[key] === 0) {
       delete obj[key];
     }
   }
-  return Object.values(obj).reduce((a, b) => a + b, 0);;
+  return Object.values(obj).reduce((a, b) => a + b, 0);
 }
 
-export let basketRender: IbasketRender;
-const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
+//функция обновляет на иконке корзины общее кол-во товаров в корзине
+export const refreshTotalItemInBasket = () => {
+  const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
+  totalItemInBasket.textContent = '' + getTotalNumberGoods(basketRender);
+};
 
-const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = '' + getTotalNumberGoods(basketRender));
-
+//функция подтягивает в переменную -basketRender- данные из localStorage
 export const refreshBasketRender = () => {
   basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
   return basketRender;
 };
 
+//функция записывает в localStorage объект по ключу localName
+export function setLocalStorage(localName:string, obj: IbasketRender) {
+  localStorage.setItem(localName, JSON.stringify(obj));
+} 
+// function getLocalStorage(localName:string, obj: IbasketRender) {
+//   localStorage.setItem(localName, JSON.stringify(obj));
+// } 
+
+// функция создает карточки товара с кнопками
 export const productsRender = (product: Iproduct) => {
   refreshTotalItemInBasket();
 
@@ -60,7 +73,10 @@ export const productsRender = (product: Iproduct) => {
       itemWrapperButtonBuy.textContent = 'add to cart';
     }
     refreshTotalItemInBasket();
-    localStorage.setItem('basket', JSON.stringify(basketRender));
+    setLocalStorage('basket', basketRender)
+    
+    // localStorage.setItem('basket', JSON.stringify(basketRender));
+    console.log('BTN addtocart/remove', basketRender);
   });
 
   const itemWrapperButtonInfo = document.createElement('button');

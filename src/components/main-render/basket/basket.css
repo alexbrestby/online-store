@@ -90,6 +90,7 @@
   border: 1px solid darkorange;
   background-color: #181a1c;
   color: darkorange;
+  /* display: none; */
 }
 .item-info {
   width: 75%;
