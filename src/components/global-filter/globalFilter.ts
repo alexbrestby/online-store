@@ -1,6 +1,6 @@
-import { productsRender } from '../main-render/products-render/productsRender';
-import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
-import { HistoryState, Idata, Iproduct } from '../types/types';
+import { productsRender } from '../../pages/main-render/products-render/productsRender';
+import { noFoundRender } from '../../pages/main-render/no-found-render/noFoundRender';
+import { HistoryState, Idata, Iproduct } from '../../types/types';
 
 const globalFilter = (): void => {
   const renderArea = <HTMLElement>document.querySelector('.render-area');

@@ -1,6 +1,6 @@
 import { globalFilter } from '../global-filter/globalFilter';
 import { markLoadedValues } from '../mark-values/markLoadedValues';
-import { HistoryState } from '../types/types';
+import { HistoryState } from '../../types/types';
 
 const stateCheck = () => {
   const categoryFilters = <HTMLElement>document.querySelector('.category-filter');
@@ -90,11 +90,15 @@ const stateCheck = () => {
       globalFilterInit = { ...globalFilterInit, ...newObject };
     }
     history.pushState(globalFilterInit, '', `?${formQueryString(globalFilterInit)}`);
-    // расставляем галочки
     markLoadedValues('initialLoad');
   }
-  // пропускаем через фильтр
-  globalFilter();
+  if (history.state === null) {
+    const globalStateSourceArray = location.pathname.slice(1).split('_');
+    if (globalStateSourceArray[0] !== '') {
+      const globalState = { [globalStateSourceArray[0]]: globalStateSourceArray[1] };
+      window.history.pushState(globalState, '', location.href);
+    }
+  }
 
   // ФУНКЦИИ ОБРАБОТЧИКИ
   [categoryFilters, brandFilters, searchInput].forEach((elem) => elem.addEventListener('input', mainStateCheck));
@@ -116,8 +120,10 @@ const stateCheck = () => {
       })
       .catch((e) => console.log(e));
   });
+
   // проверка параметров при использовании кнопок истории браузера
   window.addEventListener('popstate', function () {
+    this.location.href = location.href;
     markLoadedValues('popstate');
     globalFilter();
   });

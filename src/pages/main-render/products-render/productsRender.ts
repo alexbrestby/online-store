@@ -1,32 +1,10 @@
-import './product-render.css';
-import { Iproduct, IbasketRender } from '../../types/types';
+import './products-render.css';
+import { Iproduct } from '../../../types/types';
+import { productRender } from '../../product-render/productRender';
 
-function getNonNullKeys(obj: IbasketRender) {
-  let quantity = 0;
-  for (const item of Object.values(obj)) {
-    if (item > 0) {
-      quantity++;
-    }
-  }
-  return quantity;
-}
+const renderArea = document.querySelector('.render-area');
 
-let basketRender: IbasketRender = {};
-const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
-
-const refreshTotalItemInBasket = () => (totalItemInBasket.textContent = `${getNonNullKeys(basketRender)}`);
-
-export const refreshBasketRender = () => {
-  if (localStorage.getItem('basket') !== null) {
-    basketRender = JSON.parse(localStorage.getItem('basket') as string) as IbasketRender;
-  }
-};
-
-export const productsRender = (product: Iproduct) => {
-  refreshTotalItemInBasket();
-
-  const render = document.querySelector('.render-area');
-
+const productsRender = (product: Iproduct) => {
   const item = document.createElement('div');
   item.classList.add('product-item');
 
@@ -35,29 +13,14 @@ export const productsRender = (product: Iproduct) => {
   itemButtonsWrapper.classList.add('item-buttons-wrapper');
 
   const itemWrapperButtonBuy = document.createElement('button');
-  itemWrapperButtonBuy.classList.add('item-wrapper-button-buy');
-  itemWrapperButtonBuy.classList.add('button');
+  itemWrapperButtonBuy.classList.add('item-wrapper-button-buy', 'button');
   itemWrapperButtonBuy.dataset.buy = `${product.id}`;
-  itemWrapperButtonBuy.textContent = basketRender[`${product.id}`] ? 'remove' : 'add to cart';
-
-  itemWrapperButtonBuy.addEventListener('click', () => {
-    const idIndex = itemWrapperButtonBuy.dataset.buy as string;
-    if (basketRender[idIndex] < 1 || basketRender[idIndex] === undefined) {
-      basketRender[idIndex] = 1;
-      itemWrapperButtonBuy.textContent = 'remove';
-    } else {
-      basketRender[idIndex] = 0;
-      itemWrapperButtonBuy.textContent = 'add to cart';
-    }
-    refreshTotalItemInBasket();
-    localStorage.setItem('basket', JSON.stringify(basketRender));
-  });
+  itemWrapperButtonBuy.textContent = 'add to cart';
 
   const itemWrapperButtonInfo = document.createElement('button');
-  itemWrapperButtonInfo.classList.add('item-wrapper-button-info');
-  itemWrapperButtonInfo.classList.add('button');
+  itemWrapperButtonInfo.classList.add('item-wrapper-button-info', 'button');
   itemWrapperButtonInfo.dataset.info = `${product.id}`;
-  itemWrapperButtonInfo.textContent = 'info';
+  itemWrapperButtonInfo.textContent = 'details';
 
   itemButtonsWrapper.append(itemWrapperButtonBuy, itemWrapperButtonInfo);
 
@@ -76,7 +39,13 @@ export const productsRender = (product: Iproduct) => {
   itemWrapper.append(itemInfoBlock);
   item.append(title);
   item.append(itemWrapper);
-  render?.append(item);
+  renderArea?.append(item);
+
+  itemWrapperButtonInfo.addEventListener('click', function (e) {
+    const id: string = (e.target as HTMLElement).attributes[1].value;
+    window.history.pushState({ product: id }, '', `product_${id}`);
+    productRender();
+  });
 };
 
 const getItemInfoBlock = (product: Iproduct, div: HTMLDivElement) => {
@@ -98,3 +67,5 @@ const getItemInfoBlock = (product: Iproduct, div: HTMLDivElement) => {
     div.append(pItemInfo);
   });
 };
+
+export { productsRender };

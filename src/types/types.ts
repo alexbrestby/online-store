@@ -27,6 +27,7 @@ export interface HistoryState {
   stock: string[];
   sort: string[];
   search?: string;
+  product?: string;
 }
 
 export interface IbasketRender {
