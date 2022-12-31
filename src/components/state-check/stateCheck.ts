@@ -127,7 +127,6 @@ const stateCheck = () => {
     markLoadedValues('popstate');
     globalFilter();
   });
-
   // TODO: npm run lint
 };
 

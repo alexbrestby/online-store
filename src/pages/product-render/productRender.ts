@@ -1,6 +1,6 @@
 import './product-render.css';
 import { HistoryState, Iproduct } from '../../types/types';
-import { sliders } from '../main-render/sliders/sliders';
+import { inCartCheck } from '../../components/cart-checker/cartChecker';
 
 const productRender = () => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
@@ -20,7 +20,6 @@ const productRender = () => {
   const renderArea = <HTMLElement>document.querySelector('.main');
   renderArea.innerHTML = '';
 
-  renderArea.append(productWrapper);
   fetch(`https://dummyjson.com/products/${productId}`)
     .then((result) => result.json())
     .then((data: Iproduct) => {
@@ -56,13 +55,13 @@ const productRender = () => {
       slides.classList.add('slides');
 
       let imagesCount;
-      data.images.length > 4 ? imagesCount = 4 : imagesCount = data.images.length
+      data.images.length > 4 ? (imagesCount = 4) : (imagesCount = data.images.length);
       for (let i = 0; i < imagesCount; i++) {
         const slide = document.createElement('img');
         if (data.images[i] === data.thumbnail) {
           slide.classList.add('active');
         }
-        slide.alt = `${data.title}-${[i]}`;
+        slide.alt = `${data.title}-${i}`;
         slide.src = data.images[i];
         slides.append(slide);
       }
@@ -102,11 +101,20 @@ const productRender = () => {
       bigPrice.innerHTML = `&#8364; ${data.price}`;
 
       const addToCartButton = document.createElement('div');
-      addToCartButton.classList.add('button', 'add-button')
-      addToCartButton.innerHTML = `Add To Cart`;
+      addToCartButton.classList.add('button', 'add-button');
+      if (inCartCheck({ id: data.id, price: data.price })) {
+        addToCartButton.textContent = `drop from cart`;
+        addToCartButton.classList.add('added');
+      } else {
+        addToCartButton.textContent = `add cart`;
+        addToCartButton.classList.remove('added');
+      }
+      addToCartButton.addEventListener('click', function (e) {
+        inCartCheck({ id: data.id, price: data.price }, e);
+      });
 
       const buyNowButton = document.createElement('div');
-      buyNowButton.classList.add('button', 'buy-button')
+      buyNowButton.classList.add('button', 'buy-button');
       buyNowButton.innerHTML = `Buy Now`;
 
       productAddToCart.append(bigPrice, addToCartButton, buyNowButton);

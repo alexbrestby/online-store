@@ -1,6 +1,7 @@
 import './products-render.css';
 import { Iproduct } from '../../../types/types';
 import { productRender } from '../../product-render/productRender';
+import { inCartCheck } from '../../../components/cart-checker/cartChecker';
 
 const renderArea = document.querySelector('.render-area');
 
@@ -15,7 +16,17 @@ const productsRender = (product: Iproduct) => {
   const itemWrapperButtonBuy = document.createElement('button');
   itemWrapperButtonBuy.classList.add('item-wrapper-button-buy', 'button');
   itemWrapperButtonBuy.dataset.buy = `${product.id}`;
-  itemWrapperButtonBuy.textContent = 'add to cart';
+
+  if (inCartCheck({ id: product.id, price: product.price })) {
+    itemWrapperButtonBuy.textContent = 'drop from cart';
+    itemWrapperButtonBuy.classList.add('added');
+  } else {
+    itemWrapperButtonBuy.textContent = 'add to cart';
+    itemWrapperButtonBuy.classList.remove('added');
+  }
+  itemWrapperButtonBuy.addEventListener('click', function (e) {
+    inCartCheck({ id: product.id, price: product.price }, e);
+  });
 
   const itemWrapperButtonInfo = document.createElement('button');
   itemWrapperButtonInfo.classList.add('item-wrapper-button-info', 'button');

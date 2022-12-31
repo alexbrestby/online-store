@@ -3,7 +3,7 @@ import '../../assets/images/logo.png';
 import '../../assets/images/cart.png';
 
 const headerRender = () => {
-  console.log('render header');
+  console.log('header Render');
 
   const header = document.createElement('header');
   header.classList.add('header');
@@ -82,8 +82,17 @@ const headerRender = () => {
   headerCartImg.classList.add('header-cart__img');
   headerCartImg.src = `./assets/images/cart.png`;
   headerCartImg.alt = `cart`;
-  headerCartImgWrapper.append(headerCartTotalItem, headerCartImg);
 
+  const headerCartLink = document.createElement('a');
+  headerCartLink.href = `/`;
+  headerCartLink.target = `_blank`;
+  // cart click listener
+  headerCartLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    location.href = `/cart`;
+  });
+
+  headerCartImgWrapper.append(headerCartTotalItem, headerCartImg, headerCartLink);
   headerCart.append(headerCartTotal);
   headerCart.append(headerCartImgWrapper);
   /* header cart */

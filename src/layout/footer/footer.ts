@@ -1,7 +1,7 @@
 import './footer.css';
 
 const footerRender = () => {
-  console.log('footerRender');
+  console.log('footer Render');
   const footer = document.createElement('footer');
   footer.classList.add('footer');
 

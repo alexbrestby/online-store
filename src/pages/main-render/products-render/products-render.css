@@ -65,6 +65,10 @@
   transition: color 0.5s;
 }
 
+.button.added {
+  color: #2F4858;
+}
+
 .button:hover {
   color: #fff4eb;
   border: 3px solid #fff4eb;
