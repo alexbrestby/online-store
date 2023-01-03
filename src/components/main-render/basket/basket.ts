@@ -39,6 +39,7 @@ export const getBasketBlock = () => {
           basketDiv.classList.remove('display-none');
 
           buildDetailBasket();
+          refreshTotalSumHeader(data);
         });
       };
       basketBlock();
