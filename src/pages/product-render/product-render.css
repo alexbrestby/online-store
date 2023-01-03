@@ -85,18 +85,14 @@
 }
 
 .slides img {
-  height: 25%;
   object-fit: cover;
   border: 3px solid #b99572;
   border-radius: 5px;
 }
 
-.slides img.active {
-  border: 3px solid #2F4858;
-}
-
 .slides img:hover {
   cursor: pointer;
+  border: 3px solid #2F4858;
   transform: scale(1.1);
 }
 

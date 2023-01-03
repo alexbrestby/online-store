@@ -1,5 +1,5 @@
 import './cart-render.css';
-import { cartFilter } from '../../components/cart-flter/cartFliter';
+import { cartItemRender } from './cartItem-render/cartItemRender';
 
 const cartRender = () => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
@@ -13,7 +13,6 @@ const cartRender = () => {
 
   const productsControl = document.createElement('div');
   productsControl.classList.add('cart-controls');
-  products.append(productsControl);
 
   const productsControlH2 = document.createElement('h2');
   productsControlH2.innerHTML = `Products in cart`;
@@ -46,6 +45,15 @@ const cartRender = () => {
   productsControlPages.append(productsControlPagesLeft, productsControlPagesSpan, productsControlPagesRight);
   productsControlPagesSpan.innerHTML = `1`;
   productsControlParams.append(productsControlLimit, productsControlPages);
+
+  const productsItems = document.createElement('div');
+  productsItems.classList.add('products-items');
+  products.append(productsControl, productsItems);
+
+  const productsArray = JSON.parse(localStorage.getItem('inCart') as string) || [];
+  if (productsArray && productsArray.length > 0) {
+    cartItemRender(productsArray);
+  }
 
   const totalCart = document.createElement('div');
   totalCart.classList.add('total-cart');

@@ -2,11 +2,11 @@ import './product-render.css';
 import { HistoryState, Iproduct } from '../../types/types';
 import { inCartCheck } from '../../components/cart-checker/cartChecker';
 
-const productRender = () => {
+const productRender = (id?: string) => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
 
   const globalState = history.state as HistoryState;
-  const productId = globalState.product as string;
+  const productId = id || globalState.product as string;
 
   const productDetailPage = document.createElement('div');
   productDetailPage.classList.add('product-detail-page');
@@ -58,13 +58,14 @@ const productRender = () => {
       data.images.length > 4 ? (imagesCount = 4) : (imagesCount = data.images.length);
       for (let i = 0; i < imagesCount; i++) {
         const slide = document.createElement('img');
-        if (data.images[i] === data.thumbnail) {
-          slide.classList.add('active');
-        }
         slide.alt = `${data.title}-${i}`;
         slide.src = data.images[i];
         slides.append(slide);
       }
+      slides.addEventListener('click', function (e) {
+        const smallImgSrc = (e.target as HTMLImageElement).currentSrc as string;
+        grandPhotoImg.src = smallImgSrc;
+      });
 
       const grandPhoto = document.createElement('div');
       grandPhoto.classList.add('grand-photo');
