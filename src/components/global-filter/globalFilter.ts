@@ -106,12 +106,12 @@ const globalFilter = (): void => {
         if (renderArea.style.placeContent) renderArea.style.removeProperty('place-content');
         renderArea.innerHTML = '';
         for (let i = 0; i < resultArray.length; i++) {
-          productsRender(resultArray[i]);
+          productsRender(resultArray[i], resultArray);
         }
       } else {
         noFoundRender();
       }
-      console.log('resultArray: ', resultArray);
+      // console.log('resultArray: ', resultArray);
       counterItems.innerHTML = addZero(resultArray.length);
     })
     .catch((e) => console.log(e));

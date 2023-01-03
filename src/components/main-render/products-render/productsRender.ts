@@ -1,5 +1,6 @@
 import './product-render.css';
 import { Iproduct, IbasketRender } from '../../types/types';
+import { refreshTotalSumHeader } from '../../main-render/basket/basket';
 import { optimize } from 'webpack';
 
 export let basketRender: IbasketRender;
@@ -17,7 +18,7 @@ export function getNonNullKeys(obj: IbasketRender) {
 
 //функция удаляет id со значением 0 и возвращает сумму количества всех товаров
 export function getTotalNumberGoods(obj: IbasketRender) {
-  for (let key of Object.keys(obj)) {
+  for (const key of Object.keys(obj)) {
     if (obj[key] === 0) {
       delete obj[key];
     }
@@ -28,7 +29,9 @@ export function getTotalNumberGoods(obj: IbasketRender) {
 //функция обновляет на иконке корзины общее кол-во товаров в корзине
 export const refreshTotalItemInBasket = () => {
   const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
+  const totalPriceQuantity = <HTMLElement>document.querySelector('.total-price-quantity');
   totalItemInBasket.textContent = getTotalNumberGoods(basketRender).toString();
+  totalPriceQuantity.textContent = getTotalNumberGoods(basketRender).toString();
 };
 
 //функция подтягивает в переменную -basketRender- данные из localStorage
@@ -46,7 +49,7 @@ export function setLocalStorage(localName: string, obj: IbasketRender) {
 // } 
 
 // функция создает карточки товара с кнопками
-export const productsRender = (product: Iproduct) => {
+export const productsRender = (product: Iproduct, arr: Iproduct[]) => {
   refreshTotalItemInBasket();
 
   const render = <HTMLElement>document.querySelector('.render-area');
@@ -74,7 +77,8 @@ export const productsRender = (product: Iproduct) => {
       itemWrapperButtonBuy.textContent = 'add to cart';
     }
     refreshTotalItemInBasket();
-    setLocalStorage('basket', basketRender)
+    setLocalStorage('basket', basketRender);
+    refreshTotalSumHeader(arr);
 
     // localStorage.setItem('basket', JSON.stringify(basketRender));
     console.log('BTN addtocart/remove', basketRender);
