@@ -5,36 +5,42 @@ import {
   refreshTotalItemInBasket,
   setLocalStorage,
 } from '../products-render/productsRender';
-// import { IbasketRender } from '../../types/types';
+import { Iproduct } from '../../types/types';
+
+function refreshTotalSumHeader(): void {
+  const totalSum = document.querySelector('.total-sum');
+  const SumDataHtml = document.querySelectorAll('.amount-control');
+  const totalSumDataFromHtml = Array.from(SumDataHtml).reduce((sum, item) => sum + parseInt(item.textContent!), 0);
+  totalSum ? (totalSum.textContent = '€ ' + totalSumDataFromHtml.toString()) : 'error';
+}
 
 // перерисовка содержимого страницы корзины в соответствии с допустимым кол-вом записей на странице по событию 'input' на ITEMS:
 const itemsPerPage = <HTMLInputElement>document.querySelector('.items-per-page');
 itemsPerPage.addEventListener('input', function () {
   console.log('событие input=', this.value);
-  buildBasket();
+  buildDetailBasket();
 });
 
 //отрисовка корзины в зависимости от кол-ва товаров, кол-ва допустимых записей, номера страницы
-const buildBasket = () => {
-  document.querySelector('.prod-items')!.innerHTML = '';
-  console.log('in buildBasket', basketRender);
+const buildDetailBasket = () => {
+  (document.querySelector('.prod-items') as HTMLElement).innerHTML = '';
+  console.log('in buildDetailBasket', basketRender);
+  
   const quantityId: number = getNonNullKeys(basketRender);
   const quantityInInput: string = itemsPerPage.value;
   const numberOfPage = document.querySelector('.page-numbers-span')!.textContent;
-  console.log('buildBasket()=', quantityId, +quantityInInput, +numberOfPage!);
+  console.log('buildDetailBasket()=', quantityId, +quantityInInput, +numberOfPage!);
 
   splitIdByPage(numberOfPage);
 
-  //функция меняет вид корзины в зависимости от номера страницы
+  //функция меняет HTML корзины в зависимости от номера страницы
   function splitIdByPage(numberOfPage: string | null | undefined) {
     if (quantityId > +quantityInInput * (+numberOfPage! - 1)) {
       if (quantityId > +quantityInInput * +numberOfPage!) {
-        console.log('сработал 1-2 элс');
         for (let i = +quantityInInput * (+numberOfPage! - 1); i < +quantityInInput * +numberOfPage!; i++) {
           getBasketInfo(Object.keys(basketRender)[i]);
         }
       } else {
-        console.log('сработал 2-2 элс');
         for (let i = +quantityInInput * (+numberOfPage! - 1); i < Object.keys(basketRender).length; i++) {
           getBasketInfo(Object.keys(basketRender)[i]);
         }
@@ -43,12 +49,11 @@ const buildBasket = () => {
   }
 };
 
-//блок отрисоки корзины в зависимости от номера страницы
 const pageNumbersDel = <HTMLElement>document.querySelector('.page-numbers-del');
 const pageNumbersAdd = <HTMLElement>document.querySelector('.page-numbers-add');
 const pageNumber = <HTMLElement>document.querySelector('.page-numbers-span');
-
-addDelDiv(pageNumbersDel, 1, pageNumbersAdd, 9, pageNumber, buildBasket);
+//изменение номера страницы
+addDelDiv(pageNumbersDel, 1, pageNumbersAdd, 9, pageNumber, buildDetailBasket);
 
 //функция навешивает листенеры на две кнопки, меняет значение HTMLElement, запускает функцию
 function addDelDiv(
@@ -64,7 +69,7 @@ function addDelDiv(
       return;
     }
     console.log('сработала кнопка Del');
-    elem.textContent = '' + (+elem.textContent! - 1);
+    elem.textContent = (+elem.textContent! - 1).toString();
     if (func !== undefined) {
       func();
     }
@@ -74,7 +79,7 @@ function addDelDiv(
       return;
     }
     console.log('сработала кнопка Add');
-    elem.textContent = '' + (+elem.textContent! + 1);
+    elem.textContent = (+elem.textContent! + 1).toString();
     if (func !== undefined) {
       func();
     }
@@ -92,7 +97,7 @@ export const basketBlock = () => {
     mainBlock.classList.add('display-none');
     basketDiv.classList.remove('display-none');
 
-    buildBasket();
+    buildDetailBasket();
   });
 };
 
@@ -100,7 +105,10 @@ export const basketBlock = () => {
 const getBasketInfo = (id: string) => {
   fetch(`https://dummyjson.com/products/${+id}`)
     .then((res) => res.json())
-    .then((data) => {
+    .then((dataFetch: Iproduct) => {
+      console.log('FETCH================================');
+      const data = dataFetch;
+
       // console.log('id=', id, 'data=', data);
 
       const prodCartItem = document.createElement('div');
@@ -111,7 +119,7 @@ const getBasketInfo = (id: string) => {
 
       const itemI = document.createElement('div');
       itemI.classList.add('item-i');
-      itemI.textContent = data.id;
+      itemI.textContent = `${data.id}`;
 
       const itemInfo = document.createElement('div');
       itemInfo.classList.add('item-info');
@@ -133,10 +141,10 @@ const getBasketInfo = (id: string) => {
       productOther.classList.add('product-other');
 
       const divRating = document.createElement('div');
-      divRating.textContent = 'Rating:' + data.rating;
+      divRating.textContent = 'Rating:' + data.rating.toString();
 
       const divDiscount = document.createElement('div');
-      divDiscount.textContent = 'Discount:' + data.discountPercentage;
+      divDiscount.textContent = 'Discount:' + data.discountPercentage.toString();
 
       const itemDetailP = document.createElement('div');
       itemDetailP.classList.add('item-detail-p');
@@ -146,7 +154,7 @@ const getBasketInfo = (id: string) => {
 
       const stockControl = document.createElement('div');
       stockControl.classList.add('stock-control');
-      stockControl.textContent = '' + (+data.stock - 1);
+      stockControl.textContent = (data.stock - 1).toString();
 
       const quantityControl = document.createElement('div');
       quantityControl.classList.add('quantity-control');
@@ -157,7 +165,7 @@ const getBasketInfo = (id: string) => {
 
       const amountControl = document.createElement('div');
       amountControl.classList.add('amount-control');
-      amountControl.textContent = '' + data.price * basketRender[id];
+      amountControl.textContent = (data.price * basketRender[id]).toString();
 
       const plusButton = document.createElement('button');
       plusButton.classList.add('quantity-control-plus');
@@ -166,12 +174,13 @@ const getBasketInfo = (id: string) => {
         if (+stockControl.textContent! == 0) {
           return;
         }
-        quantityControlSpan.textContent = '' + (+quantityControlSpan.textContent! + 1);
+        quantityControlSpan.textContent = (parseInt(quantityControlSpan.textContent!, 10) + 1).toString();
         basketRender[id] = +quantityControlSpan.textContent;
         refreshTotalItemInBasket();
-        stockControl.textContent = '' + (+stockControl.textContent! - basketRender[id]);
-        amountControl.textContent = '' + (+amountControl.textContent! + data.price);
+        stockControl.textContent = (+stockControl.textContent! - 1).toString();
+        amountControl.textContent = (+amountControl.textContent! + data.price).toString();
         setLocalStorage('basket', basketRender);
+        refreshTotalSumHeader();
       });
 
       const minusButton = document.createElement('button');
@@ -179,20 +188,21 @@ const getBasketInfo = (id: string) => {
       minusButton.textContent = '-';
       minusButton.addEventListener('click', () => {
         // console.log(typeof data.price);
-        quantityControlSpan.textContent = '' + (+quantityControlSpan.textContent! - 1);
+        quantityControlSpan.textContent = (+quantityControlSpan.textContent! - 1).toString();
         basketRender[id] = +quantityControlSpan.textContent;
         refreshTotalItemInBasket();
         setLocalStorage('basket', basketRender);
-        if (+quantityControlSpan.textContent! == 0) {
+        if (+quantityControlSpan.textContent == 0) {
           delete basketRender[id];
           setLocalStorage('basket', basketRender);
-          buildBasket();
+          buildDetailBasket();
 
           return;
         }
 
-        amountControl.textContent = '' + (+amountControl.textContent! - data.price);
-        stockControl.textContent = '' + (+stockControl.textContent! + 1);
+        amountControl.textContent = (+amountControl.textContent! - data.price).toString();
+        stockControl.textContent = (+stockControl.textContent! + 1).toString();
+        refreshTotalSumHeader();
       });
 
       productTitle.prepend(productTitleH3);
@@ -204,5 +214,6 @@ const getBasketInfo = (id: string) => {
       cartItem.prepend(itemI, itemInfo, numberControl);
       prodCartItem.prepend(cartItem);
       document.querySelector('.prod-items')?.append(prodCartItem);
-    });
+    })
+    .catch((e) => console.log(e));
 };

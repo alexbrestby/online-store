@@ -1,5 +1,6 @@
 import './product-render.css';
 import { Iproduct, IbasketRender } from '../../types/types';
+import { optimize } from 'webpack';
 
 export let basketRender: IbasketRender;
 
@@ -27,19 +28,19 @@ export function getTotalNumberGoods(obj: IbasketRender) {
 //функция обновляет на иконке корзины общее кол-во товаров в корзине
 export const refreshTotalItemInBasket = () => {
   const totalItemInBasket = <HTMLElement>document.querySelector('.total-item');
-  totalItemInBasket.textContent = '' + getTotalNumberGoods(basketRender);
+  totalItemInBasket.textContent = getTotalNumberGoods(basketRender).toString();
 };
 
 //функция подтягивает в переменную -basketRender- данные из localStorage
 export const refreshBasketRender = () => {
-  basketRender = localStorage.getItem('basket') !== null ? JSON.parse(localStorage.getItem('basket')!) : {};
+  basketRender = localStorage.getItem('basket') !== null ? JSON.parse(`${localStorage.getItem('basket')}`) : {};
   return basketRender;
 };
 
 //функция записывает в localStorage объект по ключу localName
-export function setLocalStorage(localName:string, obj: IbasketRender) {
+export function setLocalStorage(localName: string, obj: IbasketRender) {
   localStorage.setItem(localName, JSON.stringify(obj));
-} 
+}
 // function getLocalStorage(localName:string, obj: IbasketRender) {
 //   localStorage.setItem(localName, JSON.stringify(obj));
 // } 
@@ -74,7 +75,7 @@ export const productsRender = (product: Iproduct) => {
     }
     refreshTotalItemInBasket();
     setLocalStorage('basket', basketRender)
-    
+
     // localStorage.setItem('basket', JSON.stringify(basketRender));
     console.log('BTN addtocart/remove', basketRender);
   });

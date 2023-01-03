@@ -2,7 +2,6 @@ import { productsRender } from '../main-render/products-render/productsRender';
 import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
 import { HistoryState, Idata, Iproduct } from '../types/types';
 
-let resultArray;
 const globalFilter = (): void => {
   const renderArea = <HTMLElement>document.querySelector('.render-area');
   const counterItems = <Element>document.querySelector('.header-found span');
@@ -117,5 +116,4 @@ const globalFilter = (): void => {
     })
     .catch((e) => console.log(e));
 };
-
-export { globalFilter, resultArray };
+export { globalFilter };
