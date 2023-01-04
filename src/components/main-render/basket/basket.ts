@@ -109,15 +109,14 @@ export const getBasketBlock = () => {
         del: HTMLElement,
         delMin: number,
         add: HTMLElement,
-        addMax: Function,
+        addMax: () => number,
         elem: HTMLElement,
-        func?: Function
+        func?: () => void
       ): void {
         del.addEventListener('click', () => {
           if (+elem.textContent! == delMin) {
             return;
           }
-          console.log('сработала кнопка Del');
           elem.textContent = (+elem.textContent! - 1).toString();
           if (func !== undefined) {
             func();
@@ -127,7 +126,6 @@ export const getBasketBlock = () => {
           if (+elem.textContent! == addMax()) {
             return;
           }
-          console.log('сработала кнопка Add');
           elem.textContent = (+elem.textContent! + 1).toString();
           if (func !== undefined) {
             func();
