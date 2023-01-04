@@ -3,7 +3,9 @@ import '../../assets/images/logo.png';
 import '../../assets/images/cart.png';
 
 const headerRender = () => {
-  console.log('header Render');
+  const inCartArray: any = JSON.parse(localStorage.getItem('inCart')!) || [];
+  let counter = inCartArray.reduce((acc: number, elem: any) => acc + elem.counter, 0);
+  const sum = inCartArray.reduce((acc: number, elem: any) => acc + elem.counter * elem.price, 0);
 
   const header = document.createElement('header');
   header.classList.add('header');
@@ -63,11 +65,11 @@ const headerRender = () => {
 
   const headerCartTotal = <HTMLElement>document.createElement('div');
   headerCartTotal.classList.add('header-cart__total');
-  headerCartTotal.innerHTML = `Total: `;
+  headerCartTotal.innerHTML = `€ `;
 
   const headerCartTotalSum = document.createElement('span');
   headerCartTotalSum.classList.add('total-sum');
-  headerCartTotalSum.innerHTML = `0.00`;
+  headerCartTotalSum.innerHTML = sum || `0.00`;
 
   headerCartTotal.append(headerCartTotalSum);
 
@@ -76,7 +78,8 @@ const headerRender = () => {
 
   const headerCartTotalItem = document.createElement('span');
   headerCartTotalItem.classList.add('total-item');
-  headerCartTotalItem.innerHTML = `0`;
+  if (counter < 10) counter = `&nbsp;${counter}`;
+  headerCartTotalItem.innerHTML = counter || `0`;
 
   const headerCartImg = document.createElement('img');
   headerCartImg.classList.add('header-cart__img');
@@ -84,7 +87,7 @@ const headerRender = () => {
   headerCartImg.alt = `cart`;
 
   const headerCartLink = document.createElement('a');
-  headerCartLink.href = `/`;
+  headerCartLink.href = `/cart`;
   headerCartLink.target = `_blank`;
   // cart click listener
   headerCartLink.addEventListener('click', function (e) {
@@ -101,6 +104,7 @@ const headerRender = () => {
   header.append(headerSearch);
   header.append(headerCart);
   document.querySelector('.wrapper')?.prepend(header);
+
 };
 
 export { headerRender };

@@ -109,7 +109,7 @@ const globalFilter = (): void => {
           productsRender(resultArray[i]);
         }
       } else {
-        noFoundRender();
+        noFoundRender(location.pathname);
       }
       // console.log('resultArray: ', resultArray);
       counterItems.innerHTML = addZero(resultArray.length);

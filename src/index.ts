@@ -9,20 +9,17 @@ import { globalFilter } from './components/global-filter/globalFilter';
 
 const init = (): void => {
   {
-    console.log(location.href);
     headerRender();
+    console.log(location.href);
     if (location.pathname === '/') {
-      console.log('main Render');
       mainRender();
       stateCheck();
       globalFilter();
     } else if (location.pathname === '/cart') {
       cartRender();
-      console.log('cart Render');
     } else if (location.pathname.match(/\/product_\d+/)) {
       stateCheck();
       productRender();
-      console.log('product Render');
     } else {
       console.log('404');
     }

@@ -1,9 +1,12 @@
+import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
 import './cart-render.css';
 import { cartItemRender } from './cartItem-render/cartItemRender';
 
 const cartRender = () => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
   const renderArea = <HTMLElement>document.querySelector('.main');
+  const storageArray = JSON.parse(localStorage.getItem('inCart') as string) || [];
+  const storageArrayLength = storageArray.length;
 
   const cartWrapper = document.createElement('div');
   cartWrapper.classList.add('cart-wrapper');
@@ -28,9 +31,10 @@ const cartRender = () => {
   const productsControlLimitInput = document.createElement('input');
   productsControlLimitInput.type = 'number';
   productsControlLimitInput.min = '1';
-  productsControlLimitInput.max = '7';
+  productsControlLimitInput.max = '6';
   productsControlLimitInput.value = '3';
   productsControlLimit.append(productsControlLimitInput);
+  let limit = +productsControlLimitInput.value;
 
   const productsControlPages = document.createElement('div');
   productsControlPages.classList.add('cart-pages');
@@ -38,6 +42,7 @@ const cartRender = () => {
 
   const productsControlPagesLeft = document.createElement('div')
   productsControlPagesLeft.classList.add('button', 'button-left');
+
   const productsControlPagesRight = document.createElement('div')
   productsControlPagesRight.classList.add('button', 'button-right');
 
@@ -45,14 +50,14 @@ const cartRender = () => {
   productsControlPages.append(productsControlPagesLeft, productsControlPagesSpan, productsControlPagesRight);
   productsControlPagesSpan.innerHTML = `1`;
   productsControlParams.append(productsControlLimit, productsControlPages);
+  let page = +productsControlPagesSpan.innerHTML;
 
   const productsItems = document.createElement('div');
   productsItems.classList.add('products-items');
   products.append(productsControl, productsItems);
 
-  const productsArray = JSON.parse(localStorage.getItem('inCart') as string) || [];
-  if (productsArray && productsArray.length > 0) {
-    cartItemRender(productsArray);
+  if (storageArray && storageArray.length > 0) {
+    cartItemRender(storageArray, limit, page);
   }
 
   const totalCart = document.createElement('div');
@@ -90,5 +95,37 @@ const cartRender = () => {
   renderArea.innerHTML = '';
   cartWrapper.append(products, totalCart);
   renderArea.append(cartWrapper);
+
+  if (!storageArray || storageArrayLength === 0) {
+    noFoundRender(location.pathname);
+  }
+
+  //listeners
+  productsControlPagesRight.addEventListener('click', (e) => {
+    if (storageArrayLength / (+productsControlLimitInput.value * +productsControlPagesSpan.innerHTML) > 1) {
+      productsControlPagesSpan.innerHTML = (parseInt(productsControlPagesSpan.innerHTML) + 1).toString();
+      page = +productsControlPagesSpan.innerHTML;
+      limit = +productsControlLimitInput.value;
+      productsItems.innerHTML = '';
+      cartItemRender(storageArray, limit, page);
+    }
+  });
+
+  productsControlPagesLeft.addEventListener('click', (e) => {
+    if (+productsControlPagesSpan.innerHTML > 1) {
+      productsControlPagesSpan.innerHTML = (parseInt(productsControlPagesSpan.innerHTML) - 1).toString();
+      page = +productsControlPagesSpan.innerHTML;
+      limit = +productsControlLimitInput.value;
+      productsItems.innerHTML = '';
+      cartItemRender(storageArray, limit, page);
+    }
+  });
+
+  productsControlLimitInput.addEventListener('input', (e) => {
+    page = +productsControlPagesSpan.innerHTML;
+    limit = +productsControlLimitInput.value;
+    productsItems.innerHTML = '';
+    cartItemRender(storageArray, limit, page);
+  });
 };
 export { cartRender };

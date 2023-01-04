@@ -1,7 +1,7 @@
+import { inCartCheck } from '../../components/cart-checker/cartChecker';
 import './footer.css';
 
 const footerRender = () => {
-  console.log('footer Render');
   const footer = document.createElement('footer');
   footer.classList.add('footer');
 
@@ -33,6 +33,7 @@ const footerRender = () => {
 
   footer.append(repository, year, rsSchool);
   document.querySelector('.wrapper')?.append(footer);
+  inCartCheck();
 };
 
 export { footerRender };
