@@ -189,16 +189,10 @@
   border-bottom: 1px solid darkorange;
   color: darkorange;
 }
+
 .total-price {
   width: 90%;
-  font-size: 170%;
-  color: wheat;
-  text-align: center;
-  margin: 4%;
-}
-.total-price {
-  width: 90%;
-  font-size: 170%;
+  font-size: 34px;
   color: wheat;
   text-align: center;
   margin: 4%;

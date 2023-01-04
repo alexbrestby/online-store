@@ -7,6 +7,7 @@ import {
 } from '../products-render/productsRender';
 import { Iproduct, Idata } from '../../types/types';
 
+//обновляет общую сумму покупок в хедере и блоке summary
 export function refreshTotalSumHeader(dataFromFetch: Iproduct[]): void {
   const totalSum = document.querySelector('.total-sum');
   const totalPriceSummary = document.querySelector('.total-price-summary');
@@ -47,7 +48,6 @@ export const getBasketBlock = () => {
       // перерисовка содержимого страницы корзины в соответствии с допустимым кол-вом записей на странице по событию 'input' на ITEMS:
       const itemsPerPage = <HTMLInputElement>document.querySelector('.items-per-page');
       itemsPerPage.addEventListener('input', function () {
-        // console.log('событие input=', this.value);
         buildDetailBasket();
       });
 
@@ -58,42 +58,58 @@ export const getBasketBlock = () => {
 
         const quantityId: number = getNonNullKeys(basketRender);
         const quantityInInput: string = itemsPerPage.value;
-        const numberOfPage = document.querySelector('.page-numbers-span')!.textContent;
-        console.log('buildDetailBasket()=', quantityId, +quantityInInput, +numberOfPage!);
+        const numberOfPage = document.querySelector('.page-numbers-span')?.textContent;
 
         splitIdByPage(numberOfPage);
 
         //функция меняет HTML корзины в зависимости от номера страницы
         function splitIdByPage(numberOfPage: string | null | undefined) {
-          if (quantityId > +quantityInInput * (+numberOfPage! - 1)) {
-            if (quantityId > +quantityInInput * +numberOfPage!) {
-              for (let i = +quantityInInput * (+numberOfPage! - 1); i < +quantityInInput * +numberOfPage!; i++) {
+          if (numberOfPage === null || numberOfPage === undefined) {
+            console.log('Error! Variable "numberOfPage" = null | | undefined');
+          } else if (quantityId > +quantityInInput * (+numberOfPage - 1)) {
+            if (quantityId > +quantityInInput * +numberOfPage) {
+              for (let i = +quantityInInput * (+numberOfPage - 1); i < +quantityInInput * +numberOfPage; i++) {
                 console.log('сработал splitIdByPage-1');
                 getBasketInfo(Object.keys(basketRender)[i]);
               }
             } else {
-              for (let i = +quantityInInput * (+numberOfPage! - 1); i < Object.keys(basketRender).length; i++) {
+              for (let i = +quantityInInput * (+numberOfPage - 1); i < Object.keys(basketRender).length; i++) {
                 console.log('сработал splitIdByPage-2');
-                // console.log('Object.keys(basketRender)[i]=', Object.keys(basketRender)[i]);
                 getBasketInfo(Object.keys(basketRender)[i]);
               }
             }
           }
         }
       };
+      //функция возвращает количество необходимых страниц корзины
+      function getAllowedNumberOfPages(): number {
+        const quantityId: number = getNonNullKeys(basketRender);
+        const quantityInInput: string = itemsPerPage.value;
+        console.log(
+          'Math.ceil(quantityId / +quantityInInput)=',
+          quantityId,
+          '==',
+          quantityInInput,
+          '==',
+          Math.ceil(quantityId / +quantityInInput)
+        );
+        return Math.ceil(quantityId / +quantityInInput);
+      }
+      getAllowedNumberOfPages();
 
       const pageNumbersDel = <HTMLElement>document.querySelector('.page-numbers-del');
       const pageNumbersAdd = <HTMLElement>document.querySelector('.page-numbers-add');
       const pageNumber = <HTMLElement>document.querySelector('.page-numbers-span');
+
       //изменение номера страницы
-      addDelDiv(pageNumbersDel, 1, pageNumbersAdd, 9, pageNumber, buildDetailBasket);
+      addDelDiv(pageNumbersDel, 1, pageNumbersAdd, getAllowedNumberOfPages, pageNumber, buildDetailBasket);
 
       //функция навешивает листенеры на две кнопки, меняет значение HTMLElement, запускает функцию
       function addDelDiv(
         del: HTMLElement,
         delMin: number,
         add: HTMLElement,
-        addMax: number,
+        addMax: Function,
         elem: HTMLElement,
         func?: Function
       ): void {
@@ -108,7 +124,7 @@ export const getBasketBlock = () => {
           }
         });
         add.addEventListener('click', () => {
-          if (+elem.textContent! == addMax) {
+          if (+elem.textContent! == addMax()) {
             return;
           }
           console.log('сработала кнопка Add');
