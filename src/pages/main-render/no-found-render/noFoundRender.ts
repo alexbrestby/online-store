@@ -1,15 +1,17 @@
 import './style.css';
 
-const noFoundRender = () => {
-  const renderArea = <HTMLElement>document.querySelector('.render-area');
+const noFoundRender = (path: string) => {
   const noFoundHeader = document.createElement('h1');
-  noFoundHeader.innerHTML = 'No products found!';
   noFoundHeader.classList.add('render-no-found');
+  let renderArea: HTMLElement;
 
-  renderArea.style.placeContent = 'center';
-
-  renderArea.innerHTML = '';
-  renderArea.appendChild(noFoundHeader);
-};
+  if (path === '/') {
+    renderArea = (document.querySelector('.render-area') as HTMLElement);
+    noFoundHeader.innerHTML = 'No products found!';
+    renderArea.style.placeContent = 'center';
+    renderArea.innerHTML = '';
+    renderArea.appendChild(noFoundHeader);
+  }
+}
 
 export { noFoundRender };

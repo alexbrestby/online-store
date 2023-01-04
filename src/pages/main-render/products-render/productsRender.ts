@@ -25,7 +25,7 @@ const productsRender = (product: Iproduct) => {
     itemWrapperButtonBuy.classList.remove('added');
   }
   itemWrapperButtonBuy.addEventListener('click', function (e) {
-    inCartCheck({ id: product.id, price: product.price }, e);
+    inCartCheck({ id: product.id, price: product.price, counter: 1 }, e);
   });
 
   const itemWrapperButtonInfo = document.createElement('button');
