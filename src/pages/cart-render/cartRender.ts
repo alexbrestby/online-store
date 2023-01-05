@@ -75,7 +75,8 @@ const cartRender = () => {
   totalQnt.classList.add('total-quantity');
   totalQnt.innerHTML = `Products: `;
   const qntSpan = document.createElement('span');
-  qntSpan.innerHTML = `0`;
+  const qnt = storageArray.reduce((acc: number, elem: any) => acc + elem.counter, 0);
+  qntSpan.innerHTML = `${qnt}` || `0`;
   totalQnt.append(qntSpan);
 
   const totalPrice = document.createElement('div');
@@ -83,7 +84,8 @@ const cartRender = () => {
   totalPrice.innerHTML = 'Total: '
 
   const priceSpan = document.createElement('span');
-  priceSpan.innerHTML = `0`;
+  const sum = storageArray.reduce((acc: number, elem: any) => acc + (elem.counter * elem.price), 0);
+  priceSpan.innerHTML = `${sum}` || `0`;
   totalPrice.append(priceSpan);
 
   const buyButton = document.createElement('div');
