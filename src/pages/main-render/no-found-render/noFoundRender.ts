@@ -11,6 +11,22 @@ const noFoundRender = (path: string) => {
     renderArea.style.placeContent = 'center';
     renderArea.innerHTML = '';
     renderArea.appendChild(noFoundHeader);
+  } else if (path === '/cart') {
+    renderArea = (document.querySelector('.products-items') as HTMLElement);
+    renderArea.style.display = 'flex';
+    renderArea.style.height = '100%';
+    noFoundHeader.innerHTML = 'Cart is empty!';
+    renderArea.style.placeItems = 'center';
+    renderArea.style.justifyContent = 'center';
+    renderArea.innerHTML = '';
+    renderArea.appendChild(noFoundHeader);
+  } else {
+    renderArea = (document.querySelector('.main') as HTMLElement);
+    noFoundHeader.innerHTML = 'Error 404. Page no found!';
+    renderArea.style.placeItems = 'center';
+    renderArea.style.justifyContent = 'center';
+    renderArea.innerHTML = '';
+    renderArea.appendChild(noFoundHeader);
   }
 }
 
