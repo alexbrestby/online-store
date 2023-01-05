@@ -107,11 +107,11 @@ const productRender = (id?: string) => {
         addToCartButton.textContent = `drop from cart`;
         addToCartButton.classList.add('added');
       } else {
-        addToCartButton.textContent = `add cart`;
+        addToCartButton.textContent = `add to cart`;
         addToCartButton.classList.remove('added');
       }
       addToCartButton.addEventListener('click', function (e) {
-        inCartCheck({ id: data.id, price: data.price }, e);
+        inCartCheck({ id: data.id, price: data.price, counter: 1 }, e);
       });
 
       const buyNowButton = document.createElement('div');

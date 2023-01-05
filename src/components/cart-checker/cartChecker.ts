@@ -42,6 +42,20 @@ export const inCartCheck = (obj?: { id?: number, price?: number, counter?: numbe
           inCartArray[i].counter++;
         }
       }
+    } else if ((e.target as HTMLElement).classList.contains('add-button')) {
+      if ((e.target as HTMLElement).innerHTML === 'add to cart') {
+        inCartArray.push(obj);
+        (e.target as HTMLElement).innerHTML = 'drop from cart';
+        (e.target as HTMLElement).classList.add('added');
+      } else {
+        for (let i = 0; i < inCartArray.length; i++) {
+          if (inCartArray[i].id === obj?.id) {
+            inCartArray.splice(i, 1);
+          }
+        }
+        (e.target as HTMLElement).innerHTML = 'add to cart';
+        (e.target as HTMLElement).classList.remove('added');
+      }
     }
     localStorage.setItem('inCart', JSON.stringify(inCartArray));
   } else {
