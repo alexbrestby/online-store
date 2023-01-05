@@ -10,6 +10,7 @@ import { globalFilter } from './components/global-filter/globalFilter';
 const init = (): void => {
   {
     headerRender();
+    console.log(location.href);
     if (location.pathname === '/') {
       mainRender();
       stateCheck();

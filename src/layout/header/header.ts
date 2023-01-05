@@ -87,7 +87,7 @@ const headerRender = () => {
   headerCartImg.alt = `cart`;
 
   const headerCartLink = document.createElement('a');
-  headerCartLink.href = `/`;
+  headerCartLink.href = `/cart`;
   headerCartLink.target = `_blank`;
   // cart click listener
   headerCartLink.addEventListener('click', function (e) {
