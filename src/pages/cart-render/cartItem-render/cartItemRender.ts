@@ -75,6 +75,8 @@ const cartItemRender = (arr: any, limit: number, page: number) => {
                   if (storageArray[i].id && storageArray[i].id == minusId) {
                     inCartCheck(storageArray[i], e);
                     productsControlSpan.innerHTML = `${parseInt(productsControlSpan.innerHTML) - 1}`;
+                    (document.querySelector('.total-quantity span') as HTMLElement).innerHTML = `${parseInt((document.querySelector('.total-quantity span') as HTMLElement).innerHTML) - 1}`;
+                    (document.querySelector('.total-price span') as HTMLElement).innerHTML = (document.querySelector('.total-sum') as HTMLElement)?.innerHTML;
                   }
                 }
               });
@@ -87,6 +89,8 @@ const cartItemRender = (arr: any, limit: number, page: number) => {
                   if (storageArray[i] && storageArray[i].id == plusId) {
                     inCartCheck(storageArray[i], e);
                     productsControlSpan.innerHTML = `${parseInt(productsControlSpan.innerHTML) + 1}`;
+                    (document.querySelector('.total-quantity span') as HTMLElement).innerHTML = `${parseInt((document.querySelector('.total-quantity span') as HTMLElement).innerHTML) + 1}`;
+                    (document.querySelector('.total-price span') as HTMLElement).innerHTML = (document.querySelector('.total-sum') as HTMLElement)?.innerHTML;
                   }
                 }
               });
