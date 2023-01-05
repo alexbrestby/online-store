@@ -86,7 +86,7 @@ const cartItemRender = (arr: any, limit: number, page: number) => {
               productsControlPlus.addEventListener('click', (e) => {
                 const plusId = (e.target as HTMLElement).parentElement?.attributes[1].value;
                 for (let i = 0; i < storageArrayLength; i++) {
-                  if (storageArray[i] && storageArray[i].id == plusId) {
+                  if ((storageArray[i]) && (storageArray[i].id == plusId) && parseInt(((e.target as HTMLElement).previousElementSibling as HTMLElement).innerHTML) < parseInt(stockControl.innerHTML.split(' ')[1])) {
                     inCartCheck(storageArray[i], e);
                     productsControlSpan.innerHTML = `${parseInt(productsControlSpan.innerHTML) + 1}`;
                     (document.querySelector('.total-quantity span') as HTMLElement).innerHTML = `${parseInt((document.querySelector('.total-quantity span') as HTMLElement).innerHTML) + 1}`;
