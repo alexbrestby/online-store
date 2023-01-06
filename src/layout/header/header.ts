@@ -1,11 +1,13 @@
 import './header.css';
 import '../../assets/images/logo.png';
 import '../../assets/images/cart.png';
+import { IstorageItem } from '../../types/types';
 
 const headerRender = () => {
-  const inCartArray: any = JSON.parse(localStorage.getItem('inCart')!) || [];
-  let counter = inCartArray.reduce((acc: number, elem: any) => acc + elem.counter, 0);
-  const sum = inCartArray.reduce((acc: number, elem: any) => acc + elem.counter * elem.price, 0);
+  const inCartArray =
+    (JSON.parse(localStorage.getItem('inCart') as string) as IstorageItem[]) || ([] as IstorageItem[]);
+  const counter = inCartArray.reduce((acc: number, elem: IstorageItem) => acc + elem.counter, 0);
+  const sum = inCartArray.reduce((acc: number, elem: IstorageItem) => acc + elem.counter * elem.price, 0);
 
   const header = document.createElement('header');
   header.classList.add('header');
@@ -69,7 +71,7 @@ const headerRender = () => {
 
   const headerCartTotalSum = document.createElement('span');
   headerCartTotalSum.classList.add('total-sum');
-  headerCartTotalSum.innerHTML = sum || `0.00`;
+  headerCartTotalSum.innerHTML = `${sum}` || `0.00`;
 
   headerCartTotal.append(headerCartTotalSum);
 
@@ -78,8 +80,9 @@ const headerRender = () => {
 
   const headerCartTotalItem = document.createElement('span');
   headerCartTotalItem.classList.add('total-item');
-  if (counter < 10) counter = `&nbsp;${counter}`;
-  headerCartTotalItem.innerHTML = counter || `0`;
+  let stringCounter = `${counter}`;
+  if (counter < 10) stringCounter = `&nbsp;${counter}`;
+  headerCartTotalItem.innerHTML = stringCounter || `0`;
 
   const headerCartImg = document.createElement('img');
   headerCartImg.classList.add('header-cart__img');
@@ -104,7 +107,6 @@ const headerRender = () => {
   header.append(headerSearch);
   header.append(headerCart);
   document.querySelector('.wrapper')?.prepend(header);
-
 };
 
 export { headerRender };

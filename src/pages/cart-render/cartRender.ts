@@ -1,11 +1,13 @@
-import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
 import './cart-render.css';
+import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
 import { cartItemRender } from './cartItem-render/cartItemRender';
+import { IstorageItem } from '../../types/types';
 
 const cartRender = () => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
   const renderArea = <HTMLElement>document.querySelector('.main');
-  const storageArray = JSON.parse(localStorage.getItem('inCart') as string) || [];
+  const storageArray =
+    (JSON.parse(localStorage.getItem('inCart') as string) as IstorageItem[]) || ([] as IstorageItem[]);
   const storageArrayLength = storageArray.length;
 
   const cartWrapper = document.createElement('div');
@@ -40,10 +42,10 @@ const cartRender = () => {
   productsControlPages.classList.add('cart-pages');
   productsControlPages.innerHTML = `Page: `;
 
-  const productsControlPagesLeft = document.createElement('div')
+  const productsControlPagesLeft = document.createElement('div');
   productsControlPagesLeft.classList.add('button', 'button-left');
 
-  const productsControlPagesRight = document.createElement('div')
+  const productsControlPagesRight = document.createElement('div');
   productsControlPagesRight.classList.add('button', 'button-right');
 
   const productsControlPagesSpan = document.createElement('span');
@@ -67,7 +69,7 @@ const cartRender = () => {
   totalCartH2.innerHTML = `Summary`;
 
   const totalCartInfo = document.createElement('div');
-  totalCartInfo.classList.add('total-cart__info')
+  totalCartInfo.classList.add('total-cart__info');
 
   totalCart.append(totalCartH2, totalCartInfo);
 
@@ -75,16 +77,16 @@ const cartRender = () => {
   totalQnt.classList.add('total-quantity');
   totalQnt.innerHTML = `Products: `;
   const qntSpan = document.createElement('span');
-  const qnt = storageArray.reduce((acc: number, elem: any) => acc + elem.counter, 0);
+  const qnt = storageArray.reduce((acc: number, elem: IstorageItem) => acc + elem.counter, 0);
   qntSpan.innerHTML = `${qnt}` || `0`;
   totalQnt.append(qntSpan);
 
   const totalPrice = document.createElement('div');
   totalPrice.classList.add('total-price');
-  totalPrice.innerHTML = 'Total: '
+  totalPrice.innerHTML = 'Total: ';
 
   const priceSpan = document.createElement('span');
-  const sum = storageArray.reduce((acc: number, elem: any) => acc + (elem.counter * elem.price), 0);
+  const sum = storageArray.reduce((acc: number, elem: IstorageItem) => acc + elem.counter * elem.price, 0);
   priceSpan.innerHTML = `${sum}` || `0`;
   totalPrice.append(priceSpan);
 
@@ -103,7 +105,7 @@ const cartRender = () => {
   }
 
   //listeners
-  productsControlPagesRight.addEventListener('click', (e) => {
+  productsControlPagesRight.addEventListener('click', () => {
     if (storageArrayLength / (+productsControlLimitInput.value * +productsControlPagesSpan.innerHTML) > 1) {
       productsControlPagesSpan.innerHTML = (parseInt(productsControlPagesSpan.innerHTML) + 1).toString();
       page = +productsControlPagesSpan.innerHTML;
@@ -113,7 +115,7 @@ const cartRender = () => {
     }
   });
 
-  productsControlPagesLeft.addEventListener('click', (e) => {
+  productsControlPagesLeft.addEventListener('click', () => {
     if (+productsControlPagesSpan.innerHTML > 1) {
       productsControlPagesSpan.innerHTML = (parseInt(productsControlPagesSpan.innerHTML) - 1).toString();
       page = +productsControlPagesSpan.innerHTML;
@@ -123,7 +125,7 @@ const cartRender = () => {
     }
   });
 
-  productsControlLimitInput.addEventListener('input', (e) => {
+  productsControlLimitInput.addEventListener('input', () => {
     page = +productsControlPagesSpan.innerHTML;
     limit = +productsControlLimitInput.value;
     productsItems.innerHTML = '';

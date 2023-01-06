@@ -6,7 +6,7 @@ const productRender = (id?: string) => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
 
   const globalState = history.state as HistoryState;
-  const productId = id || globalState.product as string;
+  const productId = id || (globalState.product as string);
 
   const productDetailPage = document.createElement('div');
   productDetailPage.classList.add('product-detail-page');
@@ -63,7 +63,7 @@ const productRender = (id?: string) => {
         slides.append(slide);
       }
       slides.addEventListener('click', function (e) {
-        const smallImgSrc = (e.target as HTMLImageElement).currentSrc as string;
+        const smallImgSrc = (e.target as HTMLImageElement).currentSrc;
         grandPhotoImg.src = smallImgSrc;
       });
 

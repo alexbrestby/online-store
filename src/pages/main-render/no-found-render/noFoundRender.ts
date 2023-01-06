@@ -6,13 +6,13 @@ const noFoundRender = (path: string) => {
   let renderArea: HTMLElement;
 
   if (path === '/') {
-    renderArea = (document.querySelector('.render-area') as HTMLElement);
+    renderArea = document.querySelector('.render-area') as HTMLElement;
     noFoundHeader.innerHTML = 'No products found!';
     renderArea.style.placeContent = 'center';
     renderArea.innerHTML = '';
     renderArea.appendChild(noFoundHeader);
   } else if (path === '/cart') {
-    renderArea = (document.querySelector('.products-items') as HTMLElement);
+    renderArea = document.querySelector('.products-items') as HTMLElement;
     renderArea.style.display = 'flex';
     renderArea.style.height = '100%';
     noFoundHeader.innerHTML = 'Cart is empty!';
@@ -21,13 +21,13 @@ const noFoundRender = (path: string) => {
     renderArea.innerHTML = '';
     renderArea.appendChild(noFoundHeader);
   } else {
-    renderArea = (document.querySelector('.main') as HTMLElement);
+    renderArea = document.querySelector('.main') as HTMLElement;
     noFoundHeader.innerHTML = 'Error 404. Page no found!';
     renderArea.style.placeItems = 'center';
     renderArea.style.justifyContent = 'center';
     renderArea.innerHTML = '';
     renderArea.appendChild(noFoundHeader);
   }
-}
+};
 
 export { noFoundRender };

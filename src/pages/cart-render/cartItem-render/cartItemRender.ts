@@ -1,21 +1,21 @@
 import './cart-item.css';
-import { Idata, Iproduct } from '../../../types/types';
+import { Idata, Iproduct, IstorageItem } from '../../../types/types';
 import { productRender } from '../../product-render/productRender';
 import { inCartCheck } from '../../../components/cart-checker/cartChecker';
-import { noFoundRender } from '../../main-render/no-found-render/noFoundRender';
 
-const cartItemRender = (arr: any, limit: number, page: number) => {
+const cartItemRender = (arr: IstorageItem[], limit: number, page: number) => {
   fetch(`https://dummyjson.com/products?limit=51`)
-    .then(result => result.json())
+    .then((result) => result.json())
     .then((data: Idata) => {
       const productsItemWrapper = document.querySelector('.products-items');
-      let productsArray = data.products as Iproduct[];
-      const storageArray = JSON.parse(localStorage.getItem('inCart') as string) || [];
+      const productsArray = data.products as Iproduct[];
+      const storageArray =
+        (JSON.parse(localStorage.getItem('inCart') as string) as IstorageItem[]) || ([] as IstorageItem[]);
       const storageArrayLength = storageArray.length;
 
       for (let i = (page - 1) * limit; i < limit * page; i++) {
         if (typeof arr[i] !== 'undefined') {
-          for (let elem of productsArray) {
+          for (const elem of productsArray) {
             if (arr[i].id === elem.id) {
               const product = document.createElement('div');
               product.classList.add('cart-item');
@@ -67,37 +67,54 @@ const cartItemRender = (arr: any, limit: number, page: number) => {
               inDecContorol.classList.add('inc-dec-control');
               inDecContorol.dataset.id = `${elem.id}`;
 
-              const productsControlMinus = document.createElement('div')
+              const productsControlMinus = document.createElement('div');
               productsControlMinus.classList.add('button', 'button-minus');
               productsControlMinus.addEventListener('click', (e) => {
                 const minusId = (e.target as HTMLElement).parentElement?.attributes[1].value;
+                /*eslint-disable */
                 for (let i = 0; i < storageArrayLength; i++) {
-                  if (storageArray[i].id && storageArray[i].id == minusId) {
+                  if (storageArray[i].id && storageArray[i].id == (minusId as unknown)) {
                     inCartCheck(storageArray[i], e);
                     productsControlSpan.innerHTML = `${parseInt(productsControlSpan.innerHTML) - 1}`;
-                    (document.querySelector('.total-quantity span') as HTMLElement).innerHTML = `${parseInt((document.querySelector('.total-quantity span') as HTMLElement).innerHTML) - 1}`;
-                    (document.querySelector('.total-price span') as HTMLElement).innerHTML = (document.querySelector('.total-sum') as HTMLElement)?.innerHTML;
+                    (document.querySelector(
+                      '.total-quantity span'
+                    ) as HTMLElement).innerHTML = `${parseInt((document.querySelector('.total-quantity span') as HTMLElement).innerHTML) - 1}`;
+                    (document.querySelector(
+                      '.total-price span'
+                    ) as HTMLElement).innerHTML =
+                      (document.querySelector('.total-sum') as HTMLElement)?.innerHTML;
                   }
                 }
+                /*eslint-enable */
               });
 
-              const productsControlPlus = document.createElement('div')
+              const productsControlPlus = document.createElement('div');
               productsControlPlus.classList.add('button', 'button-plus');
               productsControlPlus.addEventListener('click', (e) => {
                 const plusId = (e.target as HTMLElement).parentElement?.attributes[1].value;
+                /*eslint-disable */
                 for (let i = 0; i < storageArrayLength; i++) {
-                  if ((storageArray[i]) && (storageArray[i].id == plusId) && parseInt(((e.target as HTMLElement).previousElementSibling as HTMLElement).innerHTML) < parseInt(stockControl.innerHTML.split(' ')[1])) {
+                  if (
+                    storageArray[i] &&
+                    storageArray[i].id == (plusId as unknown) &&
+                    parseInt(((e.target as HTMLElement).previousElementSibling as HTMLElement).innerHTML) < parseInt(stockControl.innerHTML.split(' ')[1])
+                  ) {
                     inCartCheck(storageArray[i], e);
                     productsControlSpan.innerHTML = `${parseInt(productsControlSpan.innerHTML) + 1}`;
-                    (document.querySelector('.total-quantity span') as HTMLElement).innerHTML = `${parseInt((document.querySelector('.total-quantity span') as HTMLElement).innerHTML) + 1}`;
-                    (document.querySelector('.total-price span') as HTMLElement).innerHTML = (document.querySelector('.total-sum') as HTMLElement)?.innerHTML;
+                    (document.querySelector('.total-quantity span') as HTMLElement).innerHTML = `${parseInt((document.querySelector(
+                      '.total-quantity span'
+                    ) as HTMLElement).innerHTML) + 1}`;
+                    (document.querySelector('.total-price span') as HTMLElement).innerHTML = (document.querySelector(
+                      '.total-sum'
+                    ) as HTMLElement)?.innerHTML;
                   }
                 }
+                /*eslint-disable */
               });
 
               const productsControlSpan = document.createElement('span');
               inDecContorol.append(productsControlMinus, productsControlSpan, productsControlPlus);
-              productsControlSpan.innerHTML = arr[i].counter || '1';
+              productsControlSpan.innerHTML = `${arr[i].counter}` || '1';
 
               const amountContorl = document.createElement('div');
               amountContorl.classList.add('amount-control');
@@ -109,7 +126,7 @@ const cartItemRender = (arr: any, limit: number, page: number) => {
             }
           }
         }
-      };
+      }
       document.querySelectorAll('.item-info img').forEach((e) => {
         e.addEventListener('click', (e) => {
           const id = (e.target as HTMLImageElement).src.split('/')[5];
@@ -117,7 +134,8 @@ const cartItemRender = (arr: any, limit: number, page: number) => {
           productRender();
         });
       });
-    });
-}
+    })
+    .catch((e) => console.log(e));
+};
 
 export { cartItemRender };

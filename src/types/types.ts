@@ -33,3 +33,9 @@ export interface HistoryState {
 export interface IbasketRender {
   [key: string]: number;
 }
+
+export interface IstorageItem {
+  id: number;
+  price: number;
+  counter: number;
+}
