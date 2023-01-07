@@ -96,7 +96,6 @@ const cartRender = () => {
   buyButton.innerHTML = `Buy Now`;
   buyButton.addEventListener('click', function () {
     if (storageArrayLength > 0) {
-      console.log(storageArrayLength);
       modalRender();
     } else {
       const emptyMessage = document.createElement('div');

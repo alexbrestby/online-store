@@ -91,14 +91,14 @@
 }
 
 .header-found {
+  display: flex;
+  justify-content: center;
   text-align: center;
-  font-size: 1.1em;
-  padding: 0 20px;
+  padding: 1px 20px;
   color: #2F4858;
   background-color: #EDE9D0;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  border-bottom: 1px solid #EDE9D0;
 }
 
 .header-found span {

@@ -1,3 +1,4 @@
+import { inCartCheck } from '../../components/cart-checker/cartChecker';
 import './modal-render.css';
 
 const errorMessage = document.createElement('div');
@@ -210,7 +211,14 @@ const modalRender = () => {
 
   modalWindowWrapper.addEventListener('click', function (e) {
     if (e.target === this) {
+      console.log(location.href);
       modalWindowWrapper.remove();
+      if (location.pathname == `/cart`) {
+        location.href = `/cart`;
+      } else {
+        location.href = location.href;
+        localStorage.removeItem('inCart');
+      }
     }
   });
 };
