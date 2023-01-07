@@ -2,6 +2,7 @@ import './cart-render.css';
 import { noFoundRender } from '../main-render/no-found-render/noFoundRender';
 import { cartItemRender } from './cartItem-render/cartItemRender';
 import { IstorageItem } from '../../types/types';
+import { modalRender } from '../modal-render/modalRender';
 
 const cartRender = () => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
@@ -93,6 +94,20 @@ const cartRender = () => {
   const buyButton = document.createElement('div');
   buyButton.classList.add('button', 'button-buy');
   buyButton.innerHTML = `Buy Now`;
+  buyButton.addEventListener('click', function () {
+    if (storageArrayLength > 0) {
+      console.log(storageArrayLength);
+      modalRender();
+    } else {
+      const emptyMessage = document.createElement('div');
+      emptyMessage.classList.add('error-empty');
+      emptyMessage.innerHTML = `Cart is Empty`;
+      document.querySelector('.total-cart__info')?.append(emptyMessage);
+      setTimeout(() => {
+        emptyMessage.remove();
+      }, 2000);
+    }
+  });
 
   totalCartInfo.append(totalQnt, totalPrice, buyButton);
 

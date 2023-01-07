@@ -1,6 +1,7 @@
 import './product-render.css';
 import { HistoryState, Iproduct } from '../../types/types';
 import { inCartCheck } from '../../components/cart-checker/cartChecker';
+import { modalRender } from '../modal-render/modalRender';
 
 const productRender = (id?: string) => {
   (document.querySelector('.header-search') as HTMLElement).style.display = 'none';
@@ -117,6 +118,10 @@ const productRender = (id?: string) => {
       const buyNowButton = document.createElement('div');
       buyNowButton.classList.add('button', 'buy-button');
       buyNowButton.innerHTML = `Buy Now`;
+      buyNowButton.addEventListener('click', function (e) {
+        inCartCheck({ id: data.id, price: data.price, counter: 1 }, e);
+        modalRender();
+      });
 
       productAddToCart.append(bigPrice, addToCartButton, buyNowButton);
 

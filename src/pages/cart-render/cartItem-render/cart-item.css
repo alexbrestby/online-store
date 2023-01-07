@@ -94,7 +94,7 @@
   align-items: center;
   background-color: #2f4858;
   color: #fff4eb;
-  height: 32px;
+  padding: 6px 0;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
 }
