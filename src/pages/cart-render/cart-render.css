@@ -102,6 +102,7 @@
 }
 
 .total-cart__info {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -128,4 +129,13 @@
   align-items: center;
   height: 50px;
   font-size: 1.5em;
+}
+
+.error-empty {
+  position: absolute;
+  bottom: -35px;
+  width: 100%;
+  color: red;
+  font-weight: 500;
+  text-align: center;
 }

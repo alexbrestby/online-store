@@ -55,6 +55,12 @@ export const inCartCheck = (obj?: { id?: number; price?: number; counter?: numbe
         (e.target as HTMLElement).innerHTML = 'add to cart';
         (e.target as HTMLElement).classList.remove('added');
       }
+    } else if ((e.target as HTMLElement).classList.contains('buy-button')) {
+      if (!inCartArray.some((item: IstorageItem) => item.id === obj?.id)) {
+        inCartArray.push(obj as IstorageItem);
+      }
+      (document.querySelector('.add-button') as HTMLElement).innerHTML = 'drop from cart';
+      (document.querySelector('.add-button') as HTMLElement).classList.add('added');
     }
     localStorage.setItem('inCart', JSON.stringify(inCartArray));
   } else {
