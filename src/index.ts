@@ -7,17 +7,16 @@ import { productRender } from './pages/product-render/productRender';
 import { footerRender } from './layout/footer/footer';
 import { globalFilter } from './components/global-filter/globalFilter';
 import { noFoundRender } from './pages/main-render/no-found-render/noFoundRender';
+import { modalRender } from './pages/modal-render/modalRender';
 
 const init = (): void => {
   {
     headerRender();
-    console.log(location.href);
     if (location.pathname === '/') {
       mainRender();
       stateCheck();
       globalFilter();
     } else if (location.pathname === '/cart') {
-      console.log('cart');
       cartRender();
     } else if (location.pathname.match(/\/product_\d+/)) {
       stateCheck();
@@ -26,6 +25,7 @@ const init = (): void => {
       console.log('404');
       noFoundRender(location.href);
     }
+    modalRender();
     footerRender();
   }
 };
