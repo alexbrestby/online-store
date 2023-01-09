@@ -11,13 +11,11 @@ import { noFoundRender } from './pages/main-render/no-found-render/noFoundRender
 const init = (): void => {
   {
     headerRender();
-    console.log(location.href);
     if (location.pathname === '/') {
       mainRender();
       stateCheck();
       globalFilter();
     } else if (location.pathname === '/cart') {
-      console.log('cart');
       cartRender();
     } else if (location.pathname.match(/\/product_\d+/)) {
       stateCheck();

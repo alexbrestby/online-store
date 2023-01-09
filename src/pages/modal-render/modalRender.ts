@@ -1,8 +1,6 @@
-import { inCartCheck } from '../../components/cart-checker/cartChecker';
 import './modal-render.css';
 
 const errorMessage = document.createElement('div');
-const checkFlagArray: boolean[] = [];
 
 function checkName(name: string) {
   errorMessage.classList.add('error');
@@ -70,6 +68,88 @@ function checkTelNumber(telChar: string) {
   return true;
 }
 
+function checkCardNumber(cardNumber: string, e: KeyboardEvent | Event) {
+  errorMessage.classList.add('error');
+  if (errorMessage.innerHTML !== '') errorMessage.remove();
+
+  if (cardNumber.length === 3) {
+    (document.querySelector(
+      '.card-number img'
+    ) as HTMLImageElement).src = `https://www.mastercard.hu/content/dam/public/mastercardcom/eu/hu/images/mc-logo-52.svg`;
+  }
+
+  if (cardNumber.match(/[^0-9\s]/)) {
+    errorMessage.innerHTML = `only digits`;
+    (document.querySelector('.card-number input') as HTMLInputElement).value = cardNumber.slice(0, -1);
+    document.querySelector('.card-number')?.append(errorMessage);
+    return false;
+  }
+
+  if ((e as KeyboardEvent).code !== 'Backspace') {
+    if (cardNumber.length === 4 || cardNumber.length === 9 || cardNumber.length === 14) {
+      (document.querySelector('.card-number input') as HTMLInputElement).value += ' ';
+    }
+  }
+
+  if (cardNumber.length > 18) {
+    (document.querySelector('.card-number input') as HTMLInputElement).value = cardNumber.slice(0, -1);
+    (document.querySelector('.valid-data input') as HTMLInputElement).focus();
+  }
+
+  if (cardNumber.length < 17) {
+    errorMessage.innerHTML = `too short`;
+    document.querySelector('.card-number')?.append(errorMessage);
+    return false;
+  }
+
+  return true;
+}
+
+function checkValidField(value: string) {
+  errorMessage.classList.add('error');
+  if (errorMessage.innerHTML !== '') errorMessage.remove();
+
+  if (value.length === 1 && parseInt(value) > 1) {
+    errorMessage.innerHTML = `month`;
+    document.querySelector('.valid-data')?.append(errorMessage);
+    (document.querySelector('.valid-data input') as HTMLInputElement).value = value.slice(0, -1);
+    return false;
+  }
+
+  if (value.length === 2) {
+    (document.querySelector('.valid-data input') as HTMLInputElement).value += `/`;
+  }
+
+  if (value.length === 2 && value[1].match(/[^1-2]/)) {
+    errorMessage.innerHTML = `month`;
+    document.querySelector('.valid-data')?.append(errorMessage);
+    (document.querySelector('.valid-data input') as HTMLInputElement).value = value.slice(0, -1);
+    return false;
+  }
+
+  if (value.length === 4 && value[3] !== '2') {
+    errorMessage.innerHTML = `year`;
+    document.querySelector('.valid-data')?.append(errorMessage);
+    (document.querySelector('.valid-data input') as HTMLInputElement).value = value.slice(0, -1);
+    return false;
+  }
+
+  if (value.length === 5 && value[4].match(/[^3-9]/)) {
+    errorMessage.innerHTML = `year`;
+    document.querySelector('.valid-data')?.append(errorMessage);
+    (document.querySelector('.valid-data input') as HTMLInputElement).value = value.slice(0, -1);
+    return false;
+  }
+
+  if (value.length > 5) {
+    (document.querySelector('.valid-data input') as HTMLInputElement).value = value.slice(0, -1);
+    (document.querySelector('.cvv-data input') as HTMLInputElement).focus();
+    return false;
+  }
+
+  return true;
+}
+
 function checkAdress(adress: string) {
   errorMessage.classList.add('error');
   if (errorMessage.innerHTML !== '') errorMessage.remove();
@@ -103,11 +183,32 @@ function checkEmail(email: string) {
   return true;
 }
 
-const modalRender = () => {
-  // const storageArray =
-  //   (JSON.parse(localStorage.getItem('inCart') as string) as IstorageItem[]) || ([] as IstorageItem[]);
-  // const storageArrayLength = storageArray.length;
+function checkCvvField(value: string) {
+  errorMessage.classList.add('error');
+  if (errorMessage.innerHTML !== '') errorMessage.remove();
 
+  if (value.length < 1) {
+    errorMessage.innerHTML = `required field`;
+    document.querySelector('.cvv-data')?.append(errorMessage);
+    return false;
+  }
+
+  if (value.match(/[^0-9\s]/)) {
+    errorMessage.innerHTML = `only digits`;
+    (document.querySelector('.cvv-data input') as HTMLInputElement).value = value.slice(0, -1);
+    document.querySelector('.cvv-data')?.append(errorMessage);
+    return false;
+  }
+
+  if (value.length > 3) {
+    (document.querySelector('.cvv-data input') as HTMLInputElement).value = value.slice(0, -1);
+    return false;
+  }
+
+  return true;
+}
+
+const modalRender = () => {
   const pageWrapper = document.querySelector('.wrapper');
 
   const modalWindowWrapper = document.createElement('div');
@@ -140,7 +241,7 @@ const modalRender = () => {
   personalDataPhone.classList.add('personal-phone');
   const personalDataPhoneInput = document.createElement('input');
   personalDataPhone.innerHTML = `Phone: `;
-  personalDataPhoneInput.placeholder = ` 00570353161`;
+  personalDataPhoneInput.placeholder = `00570353161`;
   personalDataPhoneInput.type = `tel`;
   personalDataPhone.append(personalDataPhoneInput);
   personalDataPhoneInput.addEventListener('input', function () {
@@ -180,19 +281,63 @@ const modalRender = () => {
   const cardWrapper = document.createElement('div');
   cardWrapper.classList.add('card-wrapper');
 
+  const cardNumber = document.createElement('div');
+  cardNumber.classList.add('card-number');
+
+  const cardNumberImg = document.createElement('img');
+  cardNumberImg.src = `https://i.guim.co.uk/img/media/b73cc57cb1d46ae742efd06b6c58805e8600d482/16_0_2443_1466/master/2443.jpg?width=700&quality=85&auto=format&fit=max&s=fb1dca6cdd4589cd9ef2fc941935de71`;
+  cardNumberImg.alt = `Mastercard`;
+
+  const cardNumberInput = document.createElement('input');
+  cardNumberInput.type = `text`;
+  cardNumberInput.placeholder = `Card Number`;
+  cardNumberInput.addEventListener('keydown', function (e) {
+    checkCardNumber(this.value, e);
+  });
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+
+  const cardInfoValid = document.createElement('div');
+  cardInfoValid.classList.add('valid-data');
+  cardInfoValid.innerHTML = `VALID: `;
+  const cardInfoValidInput = document.createElement('input');
+  cardInfoValidInput.type = `text`;
+  cardInfoValidInput.placeholder = `MM/YY`;
+  cardInfoValid.append(cardInfoValidInput);
+  cardInfoValidInput.addEventListener('input', function () {
+    checkValidField(this.value);
+  });
+
+  const cardInfoCvv = document.createElement('div');
+  cardInfoCvv.classList.add('cvv-data');
+  cardInfoCvv.innerHTML = `CVV: `;
+  const cardInfoCvvInput = document.createElement('input');
+  cardInfoCvvInput.type = `text`;
+  cardInfoCvvInput.placeholder = `***`;
+  cardInfoCvv.append(cardInfoCvvInput);
+  cardInfoCvvInput.addEventListener('input', function () {
+    checkCvvField(this.value);
+  });
+
+  cardInfo.append(cardInfoValid, cardInfoCvv);
+  cardWrapper.append(cardNumber, cardInfo);
+  cardNumber.append(cardNumberImg, cardNumberInput);
   cardData.append(cardDataH2, cardWrapper);
 
   const modalWindowConfirmButton = document.createElement('div');
   modalWindowConfirmButton.classList.add('confirm-button', 'button');
   modalWindowConfirmButton.innerHTML = `Confirm`;
-  modalWindowConfirmButton.addEventListener('click', function () {
-    console.log(checkFlagArray);
+  modalWindowConfirmButton.addEventListener('click', function (e) {
     const requredError = document.createElement('div');
     if (
       checkName(personalDataNameInput.value) &&
       checkTelNumber(personalDataPhoneInput.value) &&
       checkAdress(personalDataAdressInput.value) &&
-      checkEmail(personalDataEmailInput.value)
+      checkEmail(personalDataEmailInput.value) &&
+      checkCardNumber(cardNumberInput.value, e) &&
+      checkValidField(cardInfoValidInput.value) &&
+      checkCvvField(cardInfoCvvInput.value)
     ) {
       requredError.classList.add('success');
       requredError.innerHTML = `Success! Form sumbitted...`;
@@ -211,13 +356,9 @@ const modalRender = () => {
 
   modalWindowWrapper.addEventListener('click', function (e) {
     if (e.target === this) {
-      console.log(location.href);
       modalWindowWrapper.remove();
       if (location.pathname == `/cart`) {
         location.href = `/cart`;
-      } else {
-        location.href = location.href;
-        localStorage.removeItem('inCart');
       }
     }
   });
