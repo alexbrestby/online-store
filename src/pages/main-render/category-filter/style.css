@@ -1,5 +1,6 @@
-@import url('https://css.gg/list.css');
-@import url('https://css.gg/format-line-height.css');
+/* @import url('https://css.gg/list.css'); */
+/* @import url('https://css.gg/format-line-height.css'); */
+@import url("https://unpkg.com/css.gg/icons/icons.css");
 
 .category-filter__list {
   height: 120px;
